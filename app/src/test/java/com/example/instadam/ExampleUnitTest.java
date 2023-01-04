@@ -1,4 +1,4 @@
-package com.example.atelier;
+package com.example.instadam;
 
 import org.junit.Test;
 

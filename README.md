@@ -1,5 +1,9 @@
 # InstaDAM
 
+## Resources
+
+https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
+
 ## TODO 
 
 - Créer une API REST permettant de - PA 

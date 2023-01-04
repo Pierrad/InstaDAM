@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Atelier</string>
+    <string name="app_name">InstaDAM</string>
+
+    <string name="SP_USER">USER</string>
 </resources>
