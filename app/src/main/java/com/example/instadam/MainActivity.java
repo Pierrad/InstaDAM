@@ -7,7 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.instadam.auth.LoginActivity;
+import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.user.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, FeedActivity.class);
             this.startActivity(intent);
         } else {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, FeedActivity.class);
             this.startActivity(intent);
         }
     }
