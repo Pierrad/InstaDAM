@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">InstaDAM</string>
-
+    <string name="API_URL">http://10.0.2.2:3000</string>
+    <string name="API_BEARER">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I2ZDIyNGQ0Yzk3NGM3YWI2ZTgxZjIiLCJpYXQiOjE2NzMwOTE2MzQsImV4cCI6MTY3Mzk1NTYzNCwidHlwZSI6ImFjY2VzcyJ9.D2GaxkXsNgJ5z5MkZZrojXwSsfpTUQPGC3qJ-h8sEUk</string>
     <string name="SP_USER">USER</string>
 </resources>
