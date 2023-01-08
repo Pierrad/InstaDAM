@@ -25,7 +25,6 @@
                 android:layout_weight="1"/>
 
             <LinearLayout
-                android:id="@+id/background"
                 android:layout_width="300dp"
                 android:layout_height="566dp"
                 android:layout_marginBottom="35dp"
@@ -95,7 +94,7 @@
 
                     <Button
                         android:id="@+id/showHidePassword"
-                        android:layout_width="45dp"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/password"
                         android:layout_marginEnd="5dp"
