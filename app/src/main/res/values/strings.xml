@@ -1,6 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">InstaDAM</string>
     <string name="API_URL">http://10.0.2.2:3000</string>
     <string name="API_BEARER">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I2ZDIyNGQ0Yzk3NGM3YWI2ZTgxZjIiLCJpYXQiOjE2NzMwOTE2MzQsImV4cCI6MTY3Mzk1NTYzNCwidHlwZSI6ImFjY2VzcyJ9.D2GaxkXsNgJ5z5MkZZrojXwSsfpTUQPGC3qJ-h8sEUk</string>
     <string name="SP_USER">USER</string>
+    <string name="mail">Mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="signup">S\'inscrire</string>
+    <string name="signin">Se connecter</string>
+    <string name="signin_title">Connexion</string>
+    <string name="signup_underline"><u>S\'inscrire</u></string>
+    <string name="signin_underline"><u>Se connecter</u></string>
 </resources>
