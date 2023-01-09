@@ -1,36 +1,215 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.RegisterActivity"
-    android:background="@drawable/background_login">
+    android:layout_gravity="center"
+    android:background="@drawable/background_login"
+    tools:context=".auth.RegisterActivity">
 
-    <ImageView
-        android:id="@+id/background"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="100dp"
-        android:background="@drawable/transparent_block_login"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/title"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quantify"
-        android:text="S'inscrire"
-        android:textColor="@color/black"
-        android:textSize="50sp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/background"
-        app:layout_constraintStart_toStartOf="@+id/background"
-        app:layout_constraintTop_toTopOf="@+id/background" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fillViewport="true">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/background"
+                android:layout_width="300dp"
+                android:layout_height="566dp"
+                android:layout_marginBottom="35dp"
+                android:orientation="vertical"
+                android:background="@drawable/transparent_block_login">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/quantify"
+                    android:textColor="@color/app_black"
+                    android:textSize="@dimen/title"
+                    android:text="@string/signup" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/emailAddress"
+                    android:layout_width="265dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:background="@drawable/custom_field"
+                    android:backgroundTint="@color/app_white"
+                    android:ems="10"
+                    android:fontFamily="@font/quantify"
+                    android:textSize="@dimen/text"
+                    android:inputType="textEmailAddress"
+                    android:importantForAutofill="no"
+                    android:hint="@string/mail" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/pseudo"
+                    android:layout_width="265dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:background="@drawable/custom_field"
+                    android:backgroundTint="@color/app_white"
+                    android:ems="10"
+                    android:fontFamily="@font/quantify"
+                    android:textSize="@dimen/text"
+                    android:inputType="text"
+                    android:importantForAutofill="no"
+                    android:hint="@string/pseudo" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_field"
+                    android:backgroundTint="@color/app_white"
+                    android:layout_gravity="center">
+
+                    <EditText
+                        android:id="@+id/password0"
+                        android:layout_width="265dp"
+                        android:layout_height="50dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="40dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/quantify"
+                        android:textSize="@dimen/text"
+                        android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:hint="@string/password" />
+
+                    <Button
+                        android:id="@+id/showHidePassword0"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/password0"
+                        android:layout_marginEnd="5dp"
+                        android:background="@android:color/transparent"
+                        app:backgroundTint="@null"
+                        android:drawableLeft="@drawable/ic_password_not_show"/>
+
+                </RelativeLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_field"
+                    android:backgroundTint="@color/app_white"
+                    android:layout_gravity="center">
+
+                    <EditText
+                        android:id="@+id/password1"
+                        android:layout_width="265dp"
+                        android:layout_height="50dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="40dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/quantify"
+                        android:textSize="@dimen/text"
+                        android:inputType="textPassword"
+                        android:importantForAutofill="no"
+                        android:hint="@string/password" />
+
+                    <Button
+                        android:id="@+id/showHidePassword1"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/password1"
+                        android:layout_marginEnd="5dp"
+                        android:background="@android:color/transparent"
+                        app:backgroundTint="@null"
+                        android:drawableLeft="@drawable/ic_password_not_show"/>
+
+                </RelativeLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/signup"
+                    android:layout_width="182dp"
+                    android:layout_height="74dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/custom_button"
+                    app:backgroundTint="@null"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/quantify"
+                    android:textSize="@dimen/text"
+                    android:text="@string/signup"/>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <Button
+                    android:id="@+id/signin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    app:backgroundTint="@null"
+                    android:textAllCaps="false"
+                    android:fontFamily="@font/quantify"
+                    android:textColor="@color/app_white"
+                    android:textSize="@dimen/subsubtitle"
+                    android:text="@string/signin_underline" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
