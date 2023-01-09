@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.geolocation.Geolocation;
 import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.user.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +43,7 @@ public class FeedActivity extends AppCompatActivity {
 
     public void fetchPosts() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), getString(R.string.API_BEARER));
+        HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), User.getInstance(FeedActivity.this).getAccessToken());
 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
