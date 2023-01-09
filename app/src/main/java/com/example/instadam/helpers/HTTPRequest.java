@@ -15,6 +15,11 @@ public class HTTPRequest {
     private String apiUrl;
     private String apiBearer;
 
+    public HTTPRequest(RequestQueue queue, String apiUrl) {
+        this.queue = queue;
+        this.apiUrl = apiUrl;
+    }
+
     public HTTPRequest(RequestQueue queue, String apiUrl, String apiBearer) {
         this.queue = queue;
         this.apiUrl = apiUrl;
@@ -29,7 +34,9 @@ public class HTTPRequest {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 if (headers != null) {
                     headers.put("Content-Type", "application/json");
-                    headers.put("Authorization", "Bearer " + apiBearer);
+                    if (apiBearer != null) {
+                        headers.put("Authorization", "Bearer " + apiBearer);
+                    }
                     return headers;
                 }
                 return super.getHeaders();
