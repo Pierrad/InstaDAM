@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sh = getSharedPreferences(String.valueOf(R.string.SP_USER), MODE_PRIVATE);
         String refreshToken = sh.getString("refreshToken", null);
 
-        refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I2ZDIyNGQ0Yzk3NGM3YWI2ZTgxZjIiLCJpYXQiOjE2NzM1MjcyMTUsImV4cCI6MjkxNzY4MzYxNSwidHlwZSI6InJlZnJlc2gifQ.4y7FU43at4TkidE1wfUikOGVsJw6R9iVEFGZjBlm1ec";
-
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL));
 
