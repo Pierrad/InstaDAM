@@ -42,9 +42,7 @@ public class FeedPost {
         byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
 
         // Use the BitmapFactory to create a Bitmap from the byte array
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-        return bitmap;
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 
     @Override

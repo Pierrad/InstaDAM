@@ -3,6 +3,8 @@ package com.example.instadam.feed;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
@@ -33,18 +35,28 @@ import java.util.Map;
 
 public class FeedActivity extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
-    private ArrayList<FeedPost> posts;
-    private ListView postsList;
-    private Boolean hasLocation = false;
+    private LinearLayoutManager layoutManager;
 
-    // TODO
-    // - Add pagination (when scrolling down, load more posts)
-    // - Use device geolocation in fetchPost call
+    private RecyclerView postsRecyclerList;
+    private ArrayList<FeedPost> posts = new ArrayList<>();
+    private FeedPostsAdapter adapter;
+
+    private boolean hasLocation = false;
+    private boolean isLoading = false;
+    private int page = 1;
+    private int totalPageNumber = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        adapter = new FeedPostsAdapter(posts, this);
+        layoutManager = new LinearLayoutManager(this);
+
+        postsRecyclerList = findViewById(R.id.feed_posts);
+        postsRecyclerList.setLayoutManager(layoutManager);
+        postsRecyclerList.setAdapter(adapter);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -53,19 +65,30 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        registerElements();
-    }
-
-    public void registerElements() {
-        postsList = findViewById(R.id.feed_posts);
     }
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
         if (!hasLocation) {
             hasLocation = true;
-            fetchPosts(location.getLatitude(), location.getLongitude());
+            fetchPosts(location.getLatitude(), location.getLongitude(), page);
+
+            postsRecyclerList.addOnScrollListener(new PaginationListener(layoutManager) {
+                @Override
+                protected void loadMoreItems() {
+                    isLoading = true;
+                    page++;
+                    fetchPosts(location.getLatitude(), location.getLongitude(), page);
+                }
+                @Override
+                public boolean isLastPage() {
+                    return page == totalPageNumber;
+                }
+                @Override
+                public boolean isLoading() {
+                    return isLoading;
+                }
+            });
         }
     }
 
@@ -84,25 +107,24 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         Log.d("Latitude","status");
     }
 
-    public void fetchPosts(double latitude, double longitude) {
+    public void fetchPosts(double latitude, double longitude, int page) {
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), User.getInstance(FeedActivity.this).getAccessToken());
-
-        Log.d("FEEDACTIVITY", "Latitude: " + latitude + " Longitude: " + longitude);
 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
         body.put("latitude", String.valueOf(latitude));
         body.put("longitude",  String.valueOf(longitude));
-        body.put("page", "1");
+        body.put("page", String.valueOf(page));
 
         request.makeRequest(Request.Method.POST, "/v1/images/geolocation", headers, body, response -> {
             try {
-                JSONArray jsonResponse = new JSONArray(response);
-                // iterate over the response and create a new post for each
+                JSONObject responseJSON = new JSONObject(response);
+                totalPageNumber = responseJSON.getInt("totalPage");
+                JSONArray images = responseJSON.getJSONArray("images");
                 posts = new ArrayList<>();
-                for (int i = 0; i < jsonResponse.length(); i++) {
-                    JSONObject post = jsonResponse.getJSONObject(i);
+                for (int i = 0; i < images.length(); i++) {
+                    JSONObject post = images.getJSONObject(i);
                     JSONObject author = post.getJSONObject("user");
                     JSONObject geolocation = post.getJSONObject("geolocation");
                     JSONArray coordinates = geolocation.getJSONArray("coordinates");
@@ -118,7 +140,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                             post.getString("image")
                     ));
                 }
-
+                isLoading = false;
                 renderPosts();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -128,8 +150,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void renderPosts() {
-        FeedPostsAdapter adapter = new FeedPostsAdapter(this, posts);
-        postsList.setAdapter(adapter);
+        adapter.addItems(posts);
     }
 
 }
