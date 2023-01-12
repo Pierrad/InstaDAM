@@ -42,8 +42,17 @@ public class FeedPost {
         byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
 
         // Use the BitmapFactory to create a Bitmap from the byte array
-        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
 
-        return bitmap;
+    @Override
+    public String toString() {
+        return "FeedPost{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", geolocation=" + geolocation +
+                ", image='" + image + '\'' +
+                '}';
     }
 }
