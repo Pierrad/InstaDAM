@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), getString(R.string.API_BEARER));
+        HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL));
 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
