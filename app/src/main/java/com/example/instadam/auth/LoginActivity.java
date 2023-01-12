@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.user.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,9 +84,27 @@ public class LoginActivity extends AppCompatActivity {
         request.makeRequest(Request.Method.POST, "/v1/auth/login", headers, body, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // TODO
-                        Intent intent = new Intent(context, FeedActivity.class);
-                        context.startActivity(intent);
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject user = jsonResponse.getJSONObject("user");
+                            JSONObject tokens = jsonResponse.getJSONObject("tokens");
+                            JSONObject accessToken = tokens.getJSONObject("access");
+                            JSONObject refreshToken = tokens.getJSONObject("refresh");
+
+                            Log.d("response", response);
+
+                            if (tokens.has("access")) {
+                                User.getInstance(LoginActivity.this).setId(user.getString("id"));
+                                User.getInstance(LoginActivity.this).setEmail(user.getString("email"));
+                                User.getInstance(LoginActivity.this).setUsername(user.getString("name"));
+                                User.getInstance(LoginActivity.this).setAccessToken(accessToken.getString("token"));
+                                User.getInstance(LoginActivity.this).setRefreshToken(refreshToken.getString("token"));
+
+                                redirectToFeedActivity();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -105,4 +124,8 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
+    public void redirectToFeedActivity() {
+        Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
+        LoginActivity.this.startActivity(intent);
+    }
 }
