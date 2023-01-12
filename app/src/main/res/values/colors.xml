@@ -14,4 +14,5 @@
     <color name="app_grey">#FFECECEC</color>
     <color name="app_white">#FFF5F7FA</color>
     <color name="app_black">#FF1F2933</color>
+    <color name="app_error">#D10A32</color>
 </resources>

@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("response", response);
 
                             if (tokens.has("access")) {
+                                User.getInstance(MainActivity.this).setId(user.getString("id"));
                                 User.getInstance(MainActivity.this).setEmail(user.getString("email"));
                                 User.getInstance(MainActivity.this).setUsername(user.getString("name"));
                                 User.getInstance(MainActivity.this).setAccessToken(accessToken.getString("token"));

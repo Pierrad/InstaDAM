@@ -12,4 +12,13 @@
     <string name="signin_title">Connexion</string>
     <string name="signup_underline"><u>S\'inscrire</u></string>
     <string name="signin_underline"><u>Se connecter</u></string>
+    <string name="email_empty_error">L\'adresse mail ne peut être vide.</string>
+    <string name="password_empty_error">Le mot de passe ne peut être vide.</string>
+    <string name="email_pattern_error">L\'adresse mail est incorrecte.</string>
+    <string name="pseudo_empty_error">Le pseudo ne peut être vide.</string>
+    <string name="password_length_8_error">Le mot de passe doit contenir 8 charactères minimum.</string>
+    <string name="password_length_20_error">Le mot de passe doit contenir 20 charactères maximum.</string>
+    <string name="password_pattern_error">Le mot de passe doit contenir 1 minuscule, 1 majuscule et 1 chiffre.</string>
+    <string name="same_password_error">Les 2 mots de passe doivent correspondres.</string>
+    <string name="email_already_token_error">L\'adresse mail est déjà prise.</string>
 </resources>
