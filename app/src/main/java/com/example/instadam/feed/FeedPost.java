@@ -46,4 +46,15 @@ public class FeedPost {
 
         return bitmap;
     }
+
+    @Override
+    public String toString() {
+        return "FeedPost{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", geolocation=" + geolocation +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

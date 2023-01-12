@@ -1,6 +1,7 @@
 package com.example.instadam.feed;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ public class FeedPostsAdapter  extends ArrayAdapter<FeedPost> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         FeedPost entry = getItem(position);
+
+        Log.d("FeedPostsAdapter", "getView: " + entry);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.feed_post_item, parent, false);
