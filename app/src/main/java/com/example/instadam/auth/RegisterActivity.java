@@ -2,7 +2,6 @@ package com.example.instadam.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,61 +47,52 @@ public class RegisterActivity extends AppCompatActivity {
         Button register = findViewById(R.id.signup);
         Button login = findViewById(R.id.signin);
 
-        showHidePassword0.setOnClickListener(click ->
-            utilities.changeVisibility(password0, showHidePassword0)
-        );
+        showHidePassword0.setOnClickListener(click -> utilities.changeVisibility(password0, showHidePassword0));
 
-        showHidePassword1.setOnClickListener(click ->
-            utilities.changeVisibility(password1, showHidePassword1)
-        );
+        showHidePassword1.setOnClickListener(click -> utilities.changeVisibility(password1, showHidePassword1));
 
-        register.setOnClickListener(click -> {
-            register(this.getBaseContext(), email.getText().toString(), pseudo.getText().toString(), password0.getText().toString(), password1.getText().toString());
-        });
+        register.setOnClickListener(click -> register(email.getText().toString(), pseudo.getText().toString(), password0.getText().toString(), password1.getText().toString()));
 
-        login.setOnClickListener(click -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            this.startActivity(intent);
-        });
+        login.setOnClickListener(click -> redirectToLoginActivity());
     }
 
-    private void register(Context context, String email, String pseudo, String password0, String password1) {
+    private void register(String email, String pseudo, String password0, String password1) {
         TextView textError = findViewById(R.id.error);
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
-        final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        final String EMAIL_PATTERN = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 
         if (email.isEmpty()) {
-            textError.setText("L'adresse mail ne peut être vide.");
+            textError.setText(R.string.email_empty_error);
             return;
         }
 
         if (!Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
-            textError.setText("L'adresse mail est incorrecte.");
+            textError.setText(R.string.email_pattern_error);
             return;
         }
 
         if (pseudo.isEmpty()) {
-            textError.setText("Le pseudo ne peut être vide.");
+            textError.setText(R.string.pseudo_empty_error);
             return;
         }
 
         if (password0.length() < 8) {
-            textError.setText("Le mot de passe doit contenir 8 charactères minimum.");
+            textError.setText(R.string.password_length_8_error);
             return;
         }
 
         if (password0.length() > 20) {
-            textError.setText("Le mot de passe doit contenir 20 charactères maximum.");
+            textError.setText(R.string.password_length_20_error);
             return;
         }
 
         if (!Pattern.compile(PASSWORD_PATTERN).matcher(password0).matches()) {
-            textError.setText("Le mot de passe doit contenir 1 miniscule, 1 majuscule et 1 chiffre.");
+            textError.setText(R.string.password_pattern_error);
             return;
         }
 
         if (!password0.equals(password1)) {
-            textError.setText("Les 2 mots de passe doivent correspondres.");
+            textError.setText(R.string.same_password_error);
             return;
         }
 
@@ -149,18 +139,21 @@ public class RegisterActivity extends AppCompatActivity {
                             JSONObject data = new JSONObject(responseBody);
 
                             if (data.getString("message").equals("Email already taken")) {
-                                textError.setText("L'adresse mail est déjà prise.");
+                                textError.setText(R.string.email_already_token_error);
                             } else {
                                 textError.setText(data.getString("message"));
                             }
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
+                        } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
         );
+    }
+
+    public void redirectToLoginActivity() {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        RegisterActivity.this.startActivity(intent);
     }
 
     public void redirectToFeedActivity() {

@@ -2,7 +2,6 @@ package com.example.instadam.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,30 +43,23 @@ public class LoginActivity extends AppCompatActivity {
         Button login = findViewById(R.id.signin);
         Button register = findViewById(R.id.signup);
 
-        showHidePassword.setOnClickListener(click -> {
-            utilities.changeVisibility(password, showHidePassword);
-        });
+        showHidePassword.setOnClickListener(click -> utilities.changeVisibility(password, showHidePassword));
 
-        login.setOnClickListener(click -> {
-            login(this.getBaseContext(), email.getText().toString(), password.getText().toString());
-        });
+        login.setOnClickListener(click -> login(email.getText().toString(), password.getText().toString()));
 
-        register.setOnClickListener(click -> {
-            Intent intent = new Intent(this, RegisterActivity.class);
-            this.startActivity(intent);
-        });
+        register.setOnClickListener(click -> redirectToRegisterActivity());
     }
 
-    public void login(Context context, String email, String password) {
+    public void login(String email, String password) {
         TextView textError = findViewById(R.id.error);
 
         if (email.isEmpty()) {
-            textError.setText("L'adresse mail ne peut être vide.");
+            textError.setText(R.string.email_empty_error);
             return;
         }
 
         if (password.isEmpty()) {
-            textError.setText("Le mot de passe ne peut être vide.");
+            textError.setText(R.string.password_empty_error);
             return;
         }
 
@@ -114,14 +105,17 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject data = new JSONObject(responseBody);
 
                             textError.setText(data.getString("message"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
+                        } catch (UnsupportedEncodingException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
         );
+    }
+
+    public void redirectToRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        this.startActivity(intent);
     }
 
     public void redirectToFeedActivity() {
