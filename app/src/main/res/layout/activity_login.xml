@@ -107,7 +107,22 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3" />
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="15dp"
+                    android:fontFamily="@font/quantify"
+                    android:textSize="@dimen/text"
+                    android:textColor="@color/app_error" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <Button
                     android:id="@+id/signin"

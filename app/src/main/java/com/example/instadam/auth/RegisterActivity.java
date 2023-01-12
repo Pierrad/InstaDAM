@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,8 +18,13 @@ import com.example.instadam.R;
 import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.helpers.HTTPRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -49,11 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         );
 
         register.setOnClickListener(click -> {
-            if (!password0.getText().toString().equals(password1.getText().toString())) {
-                // TODO
-            } else {
-                register(this.getBaseContext(), email.getText().toString(), pseudo.getText().toString(), password0.getText().toString());
-            }
+            register(this.getBaseContext(), email.getText().toString(), pseudo.getText().toString(), password0.getText().toString(), password1.getText().toString());
         });
 
         login.setOnClickListener(click -> {
@@ -62,15 +64,55 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void register(Context context, String email, String pseudo, String password) {
+    private void register(Context context, String email, String pseudo, String password0, String password1) {
+        TextView textError = findViewById(R.id.error);
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
+        final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        if (email.isEmpty()) {
+            textError.setText("L'adresse mail ne peut être vide.");
+            return;
+        }
+
+        if (!Pattern.compile(EMAIL_PATTERN).matcher(email).matches()) {
+            textError.setText("L'adresse mail est incorrecte.");
+            return;
+        }
+
+        if (pseudo.isEmpty()) {
+            textError.setText("Le pseudo ne peut être vide.");
+            return;
+        }
+
+        if (password0.length() < 8) {
+            textError.setText("Le mot de passe doit contenir 8 charactères minimum.");
+            return;
+        }
+
+        if (password0.length() > 20) {
+            textError.setText("Le mot de passe doit contenir 20 charactères maximum.");
+            return;
+        }
+
+        if (!Pattern.compile(PASSWORD_PATTERN).matcher(password0).matches()) {
+            textError.setText("Le mot de passe doit contenir 1 miniscule, 1 majuscule et 1 chiffre.");
+            return;
+        }
+
+        if (!password0.equals(password1)) {
+            textError.setText("Les 2 mots de passe doivent correspondres.");
+            return;
+        }
+
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), getString(R.string.API_BEARER));
 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
+
         body.put("name", pseudo);
         body.put("email", email);
-        body.put("password", password);
+        body.put("password", password0);
 
         request.makeRequest(Request.Method.POST, "/v1/auth/register", headers, body, new Response.Listener<String>() {
                     @Override
@@ -82,8 +124,20 @@ public class RegisterActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO
-                        error.printStackTrace();
+                        try {
+                            String responseBody = new String(error.networkResponse.data, "utf-8");
+                            JSONObject data = new JSONObject(responseBody);
+
+                            if (data.getString("message").equals("Email already taken")) {
+                                textError.setText("L'adresse mail est déjà prise.");
+                            } else {
+                                textError.setText(data.getString("message"));
+                            }
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
