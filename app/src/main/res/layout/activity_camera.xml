@@ -1,56 +1,96 @@
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".camera.CameraActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".camera.CameraActivity"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <include layout="@layout/header" />
+    <Button
+        android:id="@+id/button_image"
+        android:layout_width="249dp"
+        android:layout_height="74dp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_button"
+        android:text="Prendre une photo"
+        android:layout_margin="20dp"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text"
+        app:backgroundTint="@null" />
 
     <TextView
-        android:id="@+id/labeInfo"
+        android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Take a picture then save it!"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:layout_alignParentTop="true"/>
+        android:text="Titre : "
+        android:textColor="@color/black"
+        android:textSize="@dimen/text"
+
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
+        android:layout_margin="20dp"
         android:id="@+id/imageView"
         android:layout_width="fill_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="100dp"
-        android:layout_below="@id/labeInfo"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher" />
 
-
-    <Button
-        android:id="@+id/button_image"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textViewDesc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Capture Image"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Description : "
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="249dp"
+        android:layout_height="74dp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_button"
+        android:layout_margin="20dp"
         android:text="Save Image"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/text"
+        app:backgroundTint="@null"/>
 
     <Button
         android:id="@+id/button_load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="249dp"
+        android:layout_height="74dp"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_button"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text"
         android:text="Load Image"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        app:backgroundTint="@null"/>
+
+
+</LinearLayout>
