@@ -14,4 +14,7 @@
     <string name="signup_underline"><u>S\'inscrire</u></string>
     <string name="signin_underline"><u>Se connecter</u></string>
     <string name="save">Enregistrer</string>
+    <string name="logo">InstaDAM Logo</string>
+    <string name="randomImage">Image aléatoire</string>
+    <string name="textViewForDev">TextView</string>
 </resources>
