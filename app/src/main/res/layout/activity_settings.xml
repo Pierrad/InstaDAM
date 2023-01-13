@@ -1,0 +1,90 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".settings.SettingsActivity">
+
+    <include layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginVertical="60dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titlePseudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/quantify"
+                android:textColor="@color/black"
+                android:textSize="@dimen/subtitle"
+                android:text="@string/pseudo" />
+
+            <EditText
+                android:id="@+id/editTextPseudo"
+                android:layout_width="265dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="10dp"
+                android:background="@drawable/custom_field"
+                android:backgroundTint="@color/app_white"
+                android:ems="10"
+                android:fontFamily="@font/quantify"
+                android:textSize="@dimen/text"
+                android:inputType="text"
+                android:importantForAutofill="no"
+                android:hint="@string/pseudo" />
+
+            <TextView
+                android:id="@+id/titleEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/quantify"
+                android:textColor="@color/black"
+                android:textSize="@dimen/subtitle"
+                android:text="@string/emailAddress" />
+
+            <TextView
+                android:id="@+id/textViewEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/quantify"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text" />
+
+            <Button
+                android:id="@+id/signin"
+                android:layout_width="182dp"
+                android:layout_height="74dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/custom_button"
+                app:backgroundTint="@null"
+                android:textAllCaps="false"
+                android:fontFamily="@font/quantify"
+                android:textSize="@dimen/text"
+                android:text="@string/save"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- NavBar <include layout="@layout/header" /> -->
+
+</FrameLayout>
