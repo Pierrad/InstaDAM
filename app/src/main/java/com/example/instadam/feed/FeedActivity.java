@@ -1,6 +1,7 @@
 package com.example.instadam.feed;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,6 +43,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
     private RecyclerView postsRecyclerList;
     private ArrayList<FeedPost> posts = new ArrayList<>();
     private FeedPostsAdapter adapter;
+    private AlertDialog dialog;
 
     private boolean hasLocation = false;
     private boolean isLoading = false;
@@ -58,13 +62,15 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         postsRecyclerList.setLayoutManager(layoutManager);
         postsRecyclerList.setAdapter(adapter);
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        }
+        checkLocation();
+        checkLocationProvider();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkLocation();
+        checkLocationProvider();
     }
 
     @Override
@@ -81,6 +87,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        System.out.println("Location changed");
         if (!hasLocation) {
             hasLocation = true;
             fetchPosts(location.getLatitude(), location.getLongitude(), page);
@@ -92,10 +99,12 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                     page++;
                     fetchPosts(location.getLatitude(), location.getLongitude(), page);
                 }
+
                 @Override
                 public boolean isLastPage() {
                     return page == totalPageNumber;
                 }
+
                 @Override
                 public boolean isLoading() {
                     return isLoading;
@@ -106,17 +115,17 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
+        Log.d("Latitude", "disable");
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
+        Log.d("Latitude", "enable");
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
+        Log.d("Latitude", "status");
     }
 
     public void fetchPosts(double latitude, double longitude, int page) {
@@ -126,43 +135,78 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
         body.put("latitude", String.valueOf(latitude));
-        body.put("longitude",  String.valueOf(longitude));
+        body.put("longitude", String.valueOf(longitude));
         body.put("page", String.valueOf(page));
 
         request.makeRequest(Request.Method.POST, "/v1/images/geolocation", headers, body, response -> {
-            try {
-                JSONObject responseJSON = new JSONObject(response);
-                totalPageNumber = responseJSON.getInt("totalPage");
-                JSONArray images = responseJSON.getJSONArray("images");
-                posts = new ArrayList<>();
-                for (int i = 0; i < images.length(); i++) {
-                    JSONObject post = images.getJSONObject(i);
-                    JSONObject author = post.getJSONObject("user");
-                    JSONObject geolocation = post.getJSONObject("geolocation");
-                    JSONArray coordinates = geolocation.getJSONArray("coordinates");
-                    Geolocation location = new Geolocation(
-                            coordinates.getDouble(0),
-                            coordinates.getDouble(1)
-                    );
-                    posts.add(new FeedPost(
-                            post.getString("name"),
-                            post.getString("description"),
-                            author.getString("name"),
-                            location,
-                            post.getString("image")
-                    ));
-                }
-                isLoading = false;
-                renderPosts();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, Throwable::printStackTrace
+                    try {
+                        JSONObject responseJSON = new JSONObject(response);
+                        totalPageNumber = responseJSON.getInt("totalPage");
+                        JSONArray images = responseJSON.getJSONArray("images");
+                        posts = new ArrayList<>();
+                        for (int i = 0; i < images.length(); i++) {
+                            JSONObject post = images.getJSONObject(i);
+                            JSONObject author = post.getJSONObject("user");
+                            JSONObject geolocation = post.getJSONObject("geolocation");
+                            JSONArray coordinates = geolocation.getJSONArray("coordinates");
+                            Geolocation location = new Geolocation(
+                                    coordinates.getDouble(0),
+                                    coordinates.getDouble(1)
+                            );
+                            posts.add(new FeedPost(
+                                    post.getString("name"),
+                                    post.getString("description"),
+                                    author.getString("name"),
+                                    location,
+                                    post.getString("image")
+                            ));
+                        }
+                        isLoading = false;
+                        renderPosts();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, Throwable::printStackTrace
         );
     }
 
     public void renderPosts() {
         adapter.addItems(posts);
+    }
+
+    public void checkLocation() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        }
+
+    }
+
+    public void checkLocationProvider() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            showAlertNoLocation();
+        }
+    }
+
+    public void showAlertNoLocation() {
+         dialog = new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.activate_location_in_settings))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.activate), (dialog, id) -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                })
+                .setNegativeButton(getString(R.string.no), (dialog, id) -> dialog.cancel())
+                .create();
+
+        dialog.show();
     }
 
 }
