@@ -15,6 +15,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".settings.ProfileActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".settings.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

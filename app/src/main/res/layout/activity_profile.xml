@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".settings.SettingsActivity">
+    tools:context=".settings.ProfileActivity">
 
     <include layout="@layout/header" />
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginVertical="60dp"
+        android:layout_marginHorizontal="20dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -21,58 +22,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/titlePseudo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
-                android:fontFamily="@font/quantify"
-                android:textColor="@color/app_black"
-                android:textSize="@dimen/subtitle"
-                android:text="@string/pseudo" />
-
-            <EditText
                 android:id="@+id/pseudo"
-                android:layout_width="265dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/custom_field"
-                android:backgroundTint="@color/app_white"
-                android:ems="10"
-                android:fontFamily="@font/quantify"
-                android:textSize="@dimen/text"
-                android:textColor="@color/app_black"
-                android:inputType="text"
-                android:importantForAutofill="no"
-                android:hint="@string/pseudo" />
-
-            <TextView
-                android:id="@+id/titleEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quantify"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/subtitle"
-                android:text="@string/emailAddress" />
+                android:text="@string/textViewForDev" />
 
             <TextView
-                android:id="@+id/email"
+                android:id="@+id/nbrPublications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/quantify"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/text"
                 android:text="@string/textViewForDev" />
 
             <Button
-                android:id="@+id/save"
-                android:layout_width="182dp"
+                android:id="@+id/editProfile"
+                android:layout_width="197dp"
                 android:layout_height="74dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
@@ -82,7 +53,15 @@
                 android:fontFamily="@font/quantify"
                 android:textSize="@dimen/text"
                 android:textColor="@color/app_black"
-                android:text="@string/save" />
+                android:text="@string/editProfile" />
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editProfile" />
 
         </LinearLayout>
 

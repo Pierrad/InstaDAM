@@ -17,4 +17,5 @@
     <string name="logo">InstaDAM Logo</string>
     <string name="randomImage">Image aléatoire</string>
     <string name="textViewForDev">TextView</string>
+    <string name="editProfile">Modifier profil</string>
 </resources>
