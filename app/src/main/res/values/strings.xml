@@ -23,4 +23,7 @@
     <string name="activate_location_in_settings">Afin d\'utiliser l\'application, veuillez activer la localisation dans les paramètres de votre appareil.</string>
     <string name="activate">Activer</string>
     <string name="no">Annuler</string>
+    <string name="home_icon_label">Accueil</string>
+    <string name="add_icon_label">Publier</string>
+    <string name="profile_icon_label">Profil</string>
 </resources>
