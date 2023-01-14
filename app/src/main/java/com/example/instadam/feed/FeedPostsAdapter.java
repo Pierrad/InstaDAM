@@ -38,7 +38,7 @@ public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.Vie
         FeedPost feedPost = feedPosts.get(position);
 
         holder.nameTV.setText(feedPost.getName());
-        holder.geolocationTV.setText(feedPost.getGeolocation().toString());
+        holder.geolocationTV.setText(feedPost.getGeolocation().getAddress());
         holder.authorTV.setText(feedPost.getAuthor());
         holder.descriptionTV.setText(feedPost.getDescription());
         holder.imageTV.setImageBitmap(feedPost.getImage());

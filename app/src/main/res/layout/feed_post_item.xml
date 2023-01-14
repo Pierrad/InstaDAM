@@ -29,23 +29,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
-
-            <TextView
-                android:id="@+id/feed_post_geolocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppins"
-                android:text="TextView" />
 
             <TextView
                 android:id="@+id/feed_post_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:fontFamily="@font/poppins"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/feed_post_geolocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@font/poppins"
                 android:text="TextView" />
         </LinearLayout>

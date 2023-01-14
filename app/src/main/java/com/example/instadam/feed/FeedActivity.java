@@ -146,12 +146,14 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                         posts = new ArrayList<>();
                         for (int i = 0; i < images.length(); i++) {
                             JSONObject post = images.getJSONObject(i);
+                            Log.d("Post", post.toString());
                             JSONObject author = post.getJSONObject("user");
                             JSONObject geolocation = post.getJSONObject("geolocation");
                             JSONArray coordinates = geolocation.getJSONArray("coordinates");
                             Geolocation location = new Geolocation(
                                     coordinates.getDouble(0),
-                                    coordinates.getDouble(1)
+                                    coordinates.getDouble(1),
+                                    post.getString("address")
                             );
                             posts.add(new FeedPost(
                                     post.getString("name"),
@@ -208,5 +210,4 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
         dialog.show();
     }
-
 }
