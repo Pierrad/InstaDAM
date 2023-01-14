@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/quantify"
+            android:fontFamily="@font/poppins_bold"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="TextView"
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins"
                 android:text="TextView" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins"
                 android:text="TextView" />
         </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:id="@+id/feed_post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/quantify"
+            android:fontFamily="@font/poppins"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="TextView" />

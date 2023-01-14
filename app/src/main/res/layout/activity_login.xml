@@ -60,7 +60,7 @@
                     android:background="@drawable/custom_field"
                     android:backgroundTint="@color/app_white"
                     android:ems="10"
-                    android:fontFamily="@font/quantify"
+                    android:fontFamily="@font/poppins"
                     android:textSize="@dimen/text"
                     android:inputType="textEmailAddress"
                     android:importantForAutofill="no"
@@ -86,7 +86,7 @@
                         android:paddingEnd="40dp"
                         android:background="@null"
                         android:ems="10"
-                        android:fontFamily="@font/quantify"
+                        android:fontFamily="@font/poppins"
                         android:textSize="@dimen/text"
                         android:inputType="textPassword"
                         android:importantForAutofill="no"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="15dp"
-                    android:fontFamily="@font/quantify"
+                    android:fontFamily="@font/poppins"
                     android:textSize="@dimen/text"
                     android:textColor="@color/app_error" />
 
@@ -133,7 +133,7 @@
                     android:background="@drawable/custom_button"
                     app:backgroundTint="@null"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/quantify"
+                    android:fontFamily="@font/poppins"
                     android:textSize="@dimen/text"
                     android:text="@string/signin"/>
 
@@ -156,7 +156,7 @@
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/quantify"
+                    android:fontFamily="@font/poppins"
                     android:textColor="@color/app_white"
                     android:textSize="@dimen/subsubtitle"
                     android:text="@string/signup_underline" />
