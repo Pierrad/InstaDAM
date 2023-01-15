@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">InstaDAM</string>
     <string name="API_URL">http://217.160.51.173:5123</string>
-    <string name="API_BEARER">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I2ZDIyNGQ0Yzk3NGM3YWI2ZTgxZjIiLCJpYXQiOjE2NzMwOTE2MzQsImV4cCI6MTY3Mzk1NTYzNCwidHlwZSI6ImFjY2VzcyJ9.D2GaxkXsNgJ5z5MkZZrojXwSsfpTUQPGC3qJ-h8sEUk</string>
     <string name="SP_USER">USER</string>
     <string name="mail">Mail</string>
     <string name="emailAddress">Adresse mail</string>
@@ -18,4 +17,19 @@
     <string name="randomImage">Image aléatoire</string>
     <string name="textViewForDev">TextView</string>
     <string name="editProfile">Modifier profil</string>
+    <string name="email_empty_error">L\'adresse mail ne peut être vide.</string>
+    <string name="password_empty_error">Le mot de passe ne peut être vide.</string>
+    <string name="email_pattern_error">L\'adresse mail est incorrecte.</string>
+    <string name="pseudo_empty_error">Le pseudo ne peut être vide.</string>
+    <string name="password_length_8_error">Le mot de passe doit contenir 8 charactères minimum.</string>
+    <string name="password_length_20_error">Le mot de passe doit contenir 20 charactères maximum.</string>
+    <string name="password_pattern_error">Le mot de passe doit contenir 1 minuscule, 1 majuscule et 1 chiffre.</string>
+    <string name="same_password_error">Les 2 mots de passe doivent correspondres.</string>
+    <string name="email_already_token_error">L\'adresse mail est déjà prise.</string>
+    <string name="activate_location_in_settings">Afin d\'utiliser l\'application, veuillez activer la localisation dans les paramètres de votre appareil.</string>
+    <string name="activate">Activer</string>
+    <string name="no">Annuler</string>
+    <string name="home_icon_label">Accueil</string>
+    <string name="add_icon_label">Publier</string>
+    <string name="profile_icon_label">Profil</string>
 </resources>

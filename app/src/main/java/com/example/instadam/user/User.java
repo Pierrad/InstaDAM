@@ -9,6 +9,7 @@ public class User {
     private static User INSTANCE;
     Context context;
 
+    String id = "";
     String accessToken = "";
     String refreshToken = "";
     String username = "";
@@ -23,6 +24,14 @@ public class User {
             INSTANCE = new User(c);
         }
         return INSTANCE;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAccessToken() {
