@@ -13,6 +13,7 @@ import com.example.instadam.R;
 import com.example.instadam.auth.LoginActivity;
 import com.example.instadam.auth.RegisterActivity;
 import com.example.instadam.feed.FeedActivity;
+import com.example.instadam.settings.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -65,18 +66,19 @@ public class NavigationBar extends Fragment {
     }
 
     public void startAddActivity() {
-        if (getActivity() instanceof LoginActivity) {
+        /**if (getActivity() instanceof LoginActivity) {
             return;
         }
         Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
+        startActivity(intent);*/
+        return;
     }
 
     public void startProfileActivity() {
-        if (getActivity() instanceof RegisterActivity) {
+        if (getActivity() instanceof ProfileActivity) {
             return;
         }
-        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
         startActivity(intent);
     }
 }
