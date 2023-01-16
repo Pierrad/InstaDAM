@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 
 import com.example.instadam.R;
 
+/**
+ * User represents a user.
+ * It implements the Singleton pattern to ensure that only one instance of the User class exists.
+ */
 public class User {
     private static User INSTANCE;
     Context context;
@@ -46,6 +50,10 @@ public class User {
         return refreshToken;
     }
 
+    /**
+     * Sets the refresh token and saves it in SharedPreferences.
+     * @param refreshToken the refresh token
+     */
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
 

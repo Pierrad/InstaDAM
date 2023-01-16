@@ -26,6 +26,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MainActivity shows a splash screen while checking if the user is logged in.
+ * If the user is logged in, the MainActivity redirects to the FeedActivity. If the user is not logged in, the MainActivity redirects to the LoginActivity.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO); // disable dark mode
 
-        registerElements();
+        showAnimatedLogo();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -44,11 +48,16 @@ public class MainActivity extends AppCompatActivity {
         }, 3000);
     }
 
-    private void registerElements() {
+    private void showAnimatedLogo() {
         ImageView logo = findViewById(R.id.splash_logo);
         logo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.appear));
     }
 
+    /**
+     * Check if the user is logged in using a possible refresh token set in the SharedPreferences.
+     * If the user is logged in, this method sets the User object and redirects to the FeedActivity.
+     * If the user is not logged in, the MainActivity redirects to the LoginActivity.
+     */
     public void checkAccount() {
         SharedPreferences sh = getSharedPreferences(String.valueOf(R.string.SP_USER), MODE_PRIVATE);
         String refreshToken = sh.getString("refreshToken", null);
@@ -60,41 +69,33 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> body = new HashMap<>();
         body.put("refreshToken", refreshToken);
 
-        request.makeRequest(Request.Method.POST, "/v1/auth/me", headers, body, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONObject user = jsonResponse.getJSONObject("user");
-                            JSONObject tokens = jsonResponse.getJSONObject("tokens");
-                            JSONObject accessToken = tokens.getJSONObject("access");
-                            JSONObject refreshToken = tokens.getJSONObject("refresh");
+        request.makeRequest(Request.Method.POST, "/v1/auth/me", headers, body, response -> {
+            try {
+                JSONObject jsonResponse = new JSONObject(response);
+                JSONObject user = jsonResponse.getJSONObject("user");
+                JSONObject tokens = jsonResponse.getJSONObject("tokens");
+                JSONObject accessToken = tokens.getJSONObject("access");
+                JSONObject refreshToken1 = tokens.getJSONObject("refresh");
 
-                            Log.d("response", response);
+                if (tokens.has("access")) {
+                    User.getInstance(MainActivity.this).setId(user.getString("id"));
+                    User.getInstance(MainActivity.this).setEmail(user.getString("email"));
+                    User.getInstance(MainActivity.this).setUsername(user.getString("name"));
+                    User.getInstance(MainActivity.this).setAccessToken(accessToken.getString("token"));
+                    User.getInstance(MainActivity.this).setRefreshToken(refreshToken1.getString("token"));
 
-                            if (tokens.has("access")) {
-                                User.getInstance(MainActivity.this).setId(user.getString("id"));
-                                User.getInstance(MainActivity.this).setEmail(user.getString("email"));
-                                User.getInstance(MainActivity.this).setUsername(user.getString("name"));
-                                User.getInstance(MainActivity.this).setAccessToken(accessToken.getString("token"));
-                                User.getInstance(MainActivity.this).setRefreshToken(refreshToken.getString("token"));
+                    redirectToFeedActivity();
+                } else {
+                    redirectToLoginActivity();
+                }
 
-                                redirectToFeedActivity();
-                            } else {
-                                redirectToLoginActivity();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            redirectToLoginActivity();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        redirectToLoginActivity();
-                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+                redirectToLoginActivity();
+            }
+        }, error -> {
+                    error.printStackTrace();
+                    redirectToLoginActivity();
                 }
         );
     }

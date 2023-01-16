@@ -17,6 +17,10 @@ import com.example.instadam.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The FeedPostsAdapter is used to show the posts in the FeedActivity.
+ * It extends the RecyclerView.Adapter class and implements the ViewHolder pattern to fill the RecyclerView with the posts.
+ */
 public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.ViewHolder> {
     private ArrayList<FeedPost> feedPosts;
     private Context context;
@@ -33,6 +37,11 @@ public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.Vie
         return new ViewHolder(view);
     }
 
+    /**
+     * Bind the data to the ViewHolder.
+     * @param holder The ViewHolder to bind the data to.
+     * @param position The position of the data in the ArrayList.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FeedPost feedPost = feedPosts.get(position);
@@ -54,7 +63,9 @@ public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.Vie
         notifyDataSetChanged();
     }
 
-
+    /**
+     * Retrieve the reference of the views in the layout and store them in the ViewHolder.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTV, geolocationTV, authorTV, descriptionTV;
         private final ImageView imageTV;

@@ -1,5 +1,9 @@
 package com.example.instadam.geolocation;
 
+/**
+ * Geolocation represents a geolocation.
+ * It contains the latitude and longitude of the geolocation and the address calculated using Geocoder API.
+ */
 public class Geolocation {
     private double latitude;
     private double longitude;
@@ -22,11 +26,4 @@ public class Geolocation {
     public String getAddress() {
         return address;
     }
-
-    @Override
-    public String toString() {
-        return "Latitude = " + latitude +
-                "\nLongitude = " + longitude;
-    }
-
 }

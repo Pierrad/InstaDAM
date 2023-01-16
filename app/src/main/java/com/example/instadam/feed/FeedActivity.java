@@ -37,6 +37,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The FeedActivity shows a list of posts around the user's location. The posts are paginated and the user can scroll to load more posts.
+ * This activity uses a RecyclerView to show the posts and a PaginationListener to load more posts when the user scrolls to the end of the list.
+ */
 public class FeedActivity extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
     private LinearLayoutManager layoutManager;
@@ -74,6 +78,12 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         checkLocationProvider();
     }
 
+    /**
+     * Called when the request permissions has been answered.
+     * @param requestCode The request code.
+     * @param permissions The permissions.
+     * @param grantResults The results.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -86,6 +96,10 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
+    /**
+     * Called when the location has changed.
+     * @param location The new location.
+     */
     @Override
     public void onLocationChanged(@NonNull Location location) {
         System.out.println("Location changed");
@@ -129,6 +143,12 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         Log.d("Latitude", "status");
     }
 
+    /**
+     * Fetches the posts from the API.
+     * @param latitude The latitude of the user.
+     * @param longitude The longitude of the user.
+     * @param page The page number to fetch.
+     */
     public void fetchPosts(double latitude, double longitude, int page) {
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), User.getInstance(FeedActivity.this).getAccessToken());
@@ -173,10 +193,18 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         );
     }
 
+    /**
+     * Renders the posts in the RecyclerView.
+     * addItems triggers the adapter to update the RecyclerView with new posts.
+     */
     public void renderPosts() {
         adapter.addItems(posts);
     }
 
+    /**
+     * Checks if the user has granted the location permission.
+     * If not, it asks for the permission.
+     */
     public void checkLocation() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -189,6 +217,10 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+    /**
+     * Checks if the location provider is enabled.
+     * If not, it asks the user to enable it.
+     */
     public void checkLocationProvider() {
         if (dialog != null) {
             dialog.dismiss();
@@ -198,6 +230,10 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
+    /**
+     * Shows an alert to the user to enable the location provider.
+     * If the user clicks on the "OK" button, it redirects him to the location settings using a new intent.
+     */
     public void showAlertNoLocation() {
          dialog = new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.activate_location_in_settings))

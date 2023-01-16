@@ -6,6 +6,9 @@ import android.util.Base64;
 
 import com.example.instadam.geolocation.Geolocation;
 
+/**
+ * FeedPost represents a post in the feed.
+ */
 public class FeedPost {
     private String name;
     private String description;
@@ -37,22 +40,15 @@ public class FeedPost {
         return geolocation;
     }
 
+    /**
+     * Returns the image of the post as a Bitmap.
+     * @return the image of the post as a Bitmap
+     */
     public Bitmap getImage() {
         // Decode the base64 string into a byte array
         byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
 
         // Use the BitmapFactory to create a Bitmap from the byte array
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    }
-
-    @Override
-    public String toString() {
-        return "FeedPost{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", author='" + author + '\'' +
-                ", geolocation=" + geolocation +
-                ", image='" + image + '\'' +
-                '}';
     }
 }

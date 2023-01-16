@@ -16,6 +16,10 @@ import com.example.instadam.feed.FeedActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+/**
+ * The NavigationBarFragment is used to navigate between the different activities.
+ * It shows the navigation bar at the bottom of the screen.
+ */
 public class NavigationBar extends Fragment {
 
     public NavigationBar() {}

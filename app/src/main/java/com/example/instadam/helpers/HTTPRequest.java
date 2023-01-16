@@ -9,6 +9,9 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+/**
+ * The HTTPRequest utility class is a wrapper for the Volley library.
+ */
 public class HTTPRequest {
 
     private RequestQueue queue;
@@ -26,6 +29,15 @@ public class HTTPRequest {
         this.apiBearer = apiBearer;
     }
 
+    /**
+     * Sends a REST request to the API.
+     * @param method The HTTP method to use.
+     * @param endpoint The endpoint to send the request to.
+     * @param headers The headers to send with the request.
+     * @param body The body to send with the request.
+     * @param listener The listener to call when the request is successful.
+     * @param errorListener The listener to call when the request fails.
+     */
     public void makeRequest(int method, String endpoint, final Map<String, String> headers, final Map<String, String> body, final Response.Listener<String> listener, final Response.ErrorListener errorListener) {
         String url = apiUrl + endpoint;
 
