@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -153,7 +154,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                             Geolocation location = new Geolocation(
                                     coordinates.getDouble(0),
                                     coordinates.getDouble(1),
-                                    post.getString("address")
+                                    new Geocoder(this).getFromLocation(coordinates.getDouble(1), coordinates.getDouble(0), 1).get(0).getAddressLine(0)
                             );
                             posts.add(new FeedPost(
                                     post.getString("name"),
