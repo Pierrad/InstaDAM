@@ -1,4 +1,4 @@
-package com.example.instadam.feed;
+package com.example.instadam.components;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -6,18 +6,23 @@ import android.util.Base64;
 
 import com.example.instadam.geolocation.Geolocation;
 
-public class FeedPost {
+public class Post {
     private String name;
     private String description;
     private String author;
     private Geolocation geolocation;
     private String image;
 
-    public FeedPost(String name, String description, String author, Geolocation geolocation, String image) {
+    public Post(String name, String description, String author, Geolocation geolocation, String image) {
         this.name = name;
         this.description = description;
         this.author = author;
         this.geolocation = geolocation;
+        this.image = image;
+    }
+
+    public Post(String name, String image) {
+        this.name = name;
         this.image = image;
     }
 

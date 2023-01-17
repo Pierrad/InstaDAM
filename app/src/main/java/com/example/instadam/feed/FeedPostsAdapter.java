@@ -1,11 +1,9 @@
 package com.example.instadam.feed;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.instadam.R;
+import com.example.instadam.components.Post;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.ViewHolder> {
-    private ArrayList<FeedPost> feedPosts;
+public class FeedPostsAdapter extends RecyclerView.Adapter<FeedPostsAdapter.ViewHolder> {
+    private ArrayList<Post> feedPosts;
     private Context context;
 
-    public FeedPostsAdapter(ArrayList<FeedPost> feedPosts, Context context) {
+    public FeedPostsAdapter(ArrayList<Post> feedPosts, Context context) {
         this.feedPosts = feedPosts;
         this.context = context;
     }
@@ -35,7 +34,7 @@ public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.Vie
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FeedPost feedPost = feedPosts.get(position);
+        Post feedPost = feedPosts.get(position);
 
         holder.nameTV.setText(feedPost.getName());
         holder.geolocationTV.setText(feedPost.getGeolocation().getAddress());
@@ -49,7 +48,7 @@ public class FeedPostsAdapter  extends RecyclerView.Adapter<FeedPostsAdapter.Vie
         return feedPosts.size();
     }
 
-    public void addItems(List<FeedPost> posts) {
+    public void addItems(List<Post> posts) {
         feedPosts.addAll(posts);
         notifyDataSetChanged();
     }

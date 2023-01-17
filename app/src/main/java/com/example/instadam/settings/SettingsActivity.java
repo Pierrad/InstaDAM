@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.profile.ProfileActivity;
 import com.example.instadam.user.User;
 
 import org.json.JSONException;

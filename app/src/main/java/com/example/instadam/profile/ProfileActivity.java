@@ -1,4 +1,4 @@
-package com.example.instadam.settings;
+package com.example.instadam.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,17 +6,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
+import com.example.instadam.components.Post;
+import com.example.instadam.geolocation.Geolocation;
 import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.settings.SettingsActivity;
 import com.example.instadam.user.User;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,33 +48,39 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void getAllImages() {
         Log.d("ProfileActivity: ", "getAllImages()");
+        Map<String, String> headers = new HashMap<>();
+        Map<String, String> body = new HashMap<>();
         TextView nbrPublications = findViewById(R.id.nbrPublications);
+        GridView grid = findViewById(R.id.gridView);
+        ArrayList<Post> posts = new ArrayList<>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), User.getInstance(ProfileActivity.this).getAccessToken());
 
-        Map<String, String> headers = new HashMap<>();
-        Map<String, String> body = new HashMap<>();
+        request.makeRequest(Request.Method.GET, "/v1/images/user/" + User.getInstance(ProfileActivity.this).getId(), headers, body, response -> {
+                Log.d("ProfileActivity: ", "getAllImages() -> rqstGet getImagesByUserID OK");
 
-        request.makeRequest(Request.Method.GET, "/v1/images/user/" + User.getInstance(ProfileActivity.this).getId(), headers, body, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("ProfileActivity: ", "getAllImages() -> rqstGet getImagesByUserID OK");
+                try {
+                    JSONArray images = new JSONArray(response);
 
-                        // TODO
-                        // response to array
-                        // nbrPublications.setText(response.size());
-                        Log.e("getAllImages response: ", response);
+                    nbrPublications.setText(images.length() <= 1 ? images.length() + " publication" : images.length() + " publications");
+
+                    for (int i = 0; i < images.length(); i++) {
+                        JSONObject post = images.getJSONObject(i);
+                        Log.d("Post", post.toString());
+
+                        posts.add(new Post(
+                                post.getString("name"),
+                                post.getString("image")
+                        ));
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("ProfileActivity: ", "getAllImages() -> rqstGet getImagesByUserID NOT OK, error: " + error);
 
-                        // TODO
-                        error.printStackTrace();
-                    }
+                    grid.setAdapter(new ProfilePostsAdapter(this, posts));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }, Throwable::printStackTrace
         );
     }
 

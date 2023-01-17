@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,14 +15,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
+import com.example.instadam.components.Post;
 import com.example.instadam.geolocation.Geolocation;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.user.User;
@@ -41,7 +37,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
     private LinearLayoutManager layoutManager;
 
     private RecyclerView postsRecyclerList;
-    private ArrayList<FeedPost> posts = new ArrayList<>();
+    private ArrayList<Post> posts = new ArrayList<>();
     private FeedPostsAdapter adapter;
     private AlertDialog dialog;
 
@@ -155,7 +151,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                                     coordinates.getDouble(1),
                                     post.getString("address")
                             );
-                            posts.add(new FeedPost(
+                            posts.add(new Post(
                                     post.getString("name"),
                                     post.getString("description"),
                                     author.getString("name"),

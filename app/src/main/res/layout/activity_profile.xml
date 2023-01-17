@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".settings.ProfileActivity"
+    tools:context=".profile.ProfileActivity"
     android:orientation="vertical">
 
     <include layout="@layout/header"
@@ -62,11 +62,13 @@
                 android:textColor="@color/app_black"
                 android:text="@string/editProfile" />
 
-            <ListView
-                android:id="@+id/listView"
+            <GridView
+                android:id="@+id/gridView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="20dp" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:numColumns="2"
+                android:stretchMode="columnWidth" />
 
         </LinearLayout>
 
