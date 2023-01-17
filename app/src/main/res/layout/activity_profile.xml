@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".profile.ProfileActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/header"
+        android:id="@+id/header"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
+        android:layout_marginHorizontal="20dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/pseudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/quantify"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/subtitle"
+                android:text="@string/textViewForDev" />
+
+            <TextView
+                android:id="@+id/nbrPublications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/quantify"
+                android:textColor="@color/app_black"
+                android:textSize="@dimen/text"
+                android:text="@string/textViewForDev" />
+
+            <Button
+                android:id="@+id/editProfile"
+                android:layout_width="197dp"
+                android:layout_height="74dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/custom_button"
+                app:backgroundTint="@null"
+                android:textAllCaps="false"
+                android:fontFamily="@font/quantify"
+                android:textSize="@dimen/text"
+                android:textColor="@color/app_black"
+                android:text="@string/editProfile" />
+
+            <GridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:numColumns="2"
+                android:stretchMode="columnWidth" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navigation_bar"
+        android:name="com.example.instadam.components.NavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/fragment_navigation_bar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@
     <string name="API_URL">http://217.160.51.173:5123</string>
     <string name="SP_USER">USER</string>
     <string name="mail">Mail</string>
+    <string name="emailAddress">Adresse mail</string>
     <string name="pseudo">Pseudo</string>
     <string name="password">Mot de passe</string>
     <string name="signup">S\'inscrire</string>
@@ -11,6 +12,11 @@
     <string name="signin_title">Connexion</string>
     <string name="signup_underline"><u>S\'inscrire</u></string>
     <string name="signin_underline"><u>Se connecter</u></string>
+    <string name="save">Enregistrer</string>
+    <string name="logo">InstaDAM Logo</string>
+    <string name="randomImage">Image aléatoire</string>
+    <string name="textViewForDev">TextView</string>
+    <string name="editProfile">Modifier profil</string>
     <string name="email_empty_error">L\'adresse mail ne peut être vide.</string>
     <string name="password_empty_error">Le mot de passe ne peut être vide.</string>
     <string name="email_pattern_error">L\'adresse mail est incorrecte.</string>

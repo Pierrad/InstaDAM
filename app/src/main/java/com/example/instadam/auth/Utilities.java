@@ -25,7 +25,7 @@ public class Utilities {
             password.setInputType(InputType.TYPE_CLASS_TEXT);
         }
 
-        password.setTypeface(ResourcesCompat.getFont(context, R.font.quantify));
+        password.setTypeface(ResourcesCompat.getFont(context, R.font.poppins));
     }
 
 }

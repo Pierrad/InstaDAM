@@ -10,10 +10,10 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        app:backgroundTint="#FFFFFF"
+        android:background="@color/app_white"
+        app:backgroundTint="@color/app_white"
         app:itemIconTint="@color/app_black"
-        app:itemTextColor="#000000"
+        app:itemTextColor="@color/app_black"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation_menu" />
 

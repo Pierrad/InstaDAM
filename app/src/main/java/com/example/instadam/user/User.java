@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.instadam.R;
+import com.example.instadam.components.Post;
+
+import java.util.List;
 
 /**
  * User represents a user.
@@ -18,6 +21,7 @@ public class User {
     String refreshToken = "";
     String username = "";
     String email = "";
+    List<Post> posts;
 
     private User(Context c) {
         this.context = c;
@@ -78,4 +82,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<Post> getPosts() { return posts; }
+
+    public void setPosts(List<Post> posts) { this.posts = posts; }
 }
