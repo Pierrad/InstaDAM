@@ -8,15 +8,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -35,7 +40,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The FeedActivity shows a list of posts around the user's location. The posts are paginated and the user can scroll to load more posts.
@@ -44,6 +52,7 @@ import java.util.Map;
 public class FeedActivity extends AppCompatActivity implements LocationListener {
     protected LocationManager locationManager;
     private LinearLayoutManager layoutManager;
+    private Geocoder geocoder;
 
     private RecyclerView postsRecyclerList;
     private ArrayList<FeedPost> posts = new ArrayList<>();
@@ -62,6 +71,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
         adapter = new FeedPostsAdapter(posts, this);
         layoutManager = new LinearLayoutManager(this);
+        geocoder = new Geocoder(this);
 
         postsRecyclerList = findViewById(R.id.feed_posts);
         postsRecyclerList.setLayoutManager(layoutManager);
@@ -80,8 +90,9 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * Called when the request permissions has been answered.
-     * @param requestCode The request code.
-     * @param permissions The permissions.
+     *
+     * @param requestCode  The request code.
+     * @param permissions  The permissions.
      * @param grantResults The results.
      */
     @Override
@@ -98,6 +109,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * Called when the location has changed.
+     *
      * @param location The new location.
      */
     @Override
@@ -145,9 +157,10 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
 
     /**
      * Fetches the posts from the API.
-     * @param latitude The latitude of the user.
+     *
+     * @param latitude  The latitude of the user.
      * @param longitude The longitude of the user.
-     * @param page The page number to fetch.
+     * @param page      The page number to fetch.
      */
     public void fetchPosts(double latitude, double longitude, int page) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -171,11 +184,16 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                             JSONObject author = post.getJSONObject("user");
                             JSONObject geolocation = post.getJSONObject("geolocation");
                             JSONArray coordinates = geolocation.getJSONArray("coordinates");
+                            double latitudePost = coordinates.getDouble(0);
+                            double longitudePost = coordinates.getDouble(1);
                             Geolocation location = new Geolocation(
-                                    coordinates.getDouble(0),
-                                    coordinates.getDouble(1),
-                                    new Geocoder(this).getFromLocation(coordinates.getDouble(1), coordinates.getDouble(0), 1).get(0).getAddressLine(0)
+                                    latitudePost,
+                                    longitudePost
                             );
+
+                            AddressTask task = new AddressTask(location);
+                            task.execute(latitudePost, longitudePost);
+
                             posts.add(new FeedPost(
                                     post.getString("name"),
                                     post.getString("description"),
@@ -235,7 +253,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
      * If the user clicks on the "OK" button, it redirects him to the location settings using a new intent.
      */
     public void showAlertNoLocation() {
-         dialog = new AlertDialog.Builder(this)
+        dialog = new AlertDialog.Builder(this)
                 .setMessage(getString(R.string.activate_location_in_settings))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.activate), (dialog, id) -> {
@@ -246,5 +264,47 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
                 .create();
 
         dialog.show();
+    }
+
+    /**
+     * AsyncTask to get the address from the latitude and longitude because "getAddressFromGeocoder" is an heavy operation
+     * that is causing the UI thread to skip frames. To avoid this, we use an AsyncTask.
+     */
+    @SuppressLint("StaticFieldLeak")
+    private class AddressTask extends AsyncTask<Double, Void, String> {
+        private final Geolocation location;
+
+        public AddressTask(Geolocation location) {
+            this.location = location;
+        }
+
+        @Override
+        protected String doInBackground(Double... coordinates) {
+            return getAddressFromGeocoder(coordinates[0], coordinates[1]);
+        }
+
+        @Override
+        protected void onPostExecute(String address) {
+            location.setAddress(address);
+        }
+    }
+
+    /**
+     * Gets the address from the latitude and longitude using GeoCoder API.
+     * @param latitude The latitude of the user.
+     * @param longitude The longitude of the user.
+     * @return The address of the user.
+     */
+    public String getAddressFromGeocoder(double latitude, double longitude) {
+        String address = "";
+        try {
+            List<Address> addressPost = geocoder.getFromLocation(longitude, latitude, 1);
+            if (addressPost.size() > 0) {
+                address = addressPost.get(0).getAddressLine(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return address;
     }
 }

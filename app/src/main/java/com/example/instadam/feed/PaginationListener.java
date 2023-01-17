@@ -19,7 +19,7 @@ public abstract class PaginationListener extends RecyclerView.OnScrollListener {
     }
 
     /**
-     * Called when the RecyclerView has been scrolled. This method checks if the user has scrolled to the bottom of the list and loads more posts if needed.
+     * Called when the RecyclerView has been scrolled. This method checks if the user has scrolled 80% of the list and loads more posts if needed.
      * @param recyclerView The RecyclerView which has been scrolled.
      * @param dx The amount of horizontal scroll.
      * @param dy The amount of vertical scroll.
@@ -30,10 +30,9 @@ public abstract class PaginationListener extends RecyclerView.OnScrollListener {
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
         int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+        double visiblePercentage = (double)(visibleItemCount + firstVisibleItemPosition) / totalItemCount;
         if (!isLoading() && !isLastPage()) {
-            if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                    && firstVisibleItemPosition >= 0
-                    && totalItemCount >= PAGE_SIZE) {
+            if (visiblePercentage >= 0.8) {
                 loadMoreItems();
             }
         }
