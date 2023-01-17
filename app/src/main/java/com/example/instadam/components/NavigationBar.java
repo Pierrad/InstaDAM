@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class NavigationBar extends Fragment {
             navbar.setSelectedItemId(R.id.home);
         } else if (getActivity() instanceof LoginActivity) {
             navbar.setSelectedItemId(R.id.add);
-        } else if (getActivity() instanceof RegisterActivity) {
+        } else if (getActivity() instanceof ProfileActivity) {
             navbar.setSelectedItemId(R.id.profile);
         }
 

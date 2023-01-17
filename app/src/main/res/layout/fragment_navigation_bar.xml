@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:background="@color/app_white"
         app:backgroundTint="@color/app_white"
-        app:itemIconTint="@color/app_black"
-        app:itemTextColor="@color/app_black"
+        app:itemTextColor="@color/navigation_bar_color"
+        app:itemIconTint="@color/navigation_bar_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation_menu" />
 
