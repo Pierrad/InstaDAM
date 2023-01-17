@@ -112,7 +112,7 @@ public class FeedActivity extends AppCompatActivity implements LocationListener 
      */
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        System.out.println("Location changed");
+        User.getInstance(this).setCurrentPosition(new Geolocation(location.getLatitude(), location.getLongitude()));
         if (!hasLocation) {
             hasLocation = true;
             fetchPosts(location.getLatitude(), location.getLongitude(), page);

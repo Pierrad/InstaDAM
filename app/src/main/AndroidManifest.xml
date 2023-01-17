@@ -34,6 +34,10 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".map.MapActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name=".feed.FeedActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

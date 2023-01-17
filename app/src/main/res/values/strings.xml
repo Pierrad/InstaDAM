@@ -32,4 +32,5 @@
     <string name="home_icon_label">Accueil</string>
     <string name="add_icon_label">Publier</string>
     <string name="profile_icon_label">Profil</string>
+    <string name="viewMap">Voir la map</string>
 </resources>

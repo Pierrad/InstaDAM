@@ -24,9 +24,10 @@ public class Post {
         this.image = image;
     }
 
-    public Post(String name, String image) {
+    public Post(String name, String image, Geolocation geolocation) {
         this.name = name;
         this.image = image;
+        this.geolocation = geolocation;
     }
 
     public String getName() {

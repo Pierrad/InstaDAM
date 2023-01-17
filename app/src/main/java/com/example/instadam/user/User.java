@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.example.instadam.R;
 import com.example.instadam.components.Post;
+import com.example.instadam.geolocation.Geolocation;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class User {
     String username = "";
     String email = "";
     List<Post> posts;
+
+    Geolocation currentPosition;
 
     private User(Context c) {
         this.context = c;
@@ -86,4 +89,12 @@ public class User {
     public List<Post> getPosts() { return posts; }
 
     public void setPosts(List<Post> posts) { this.posts = posts; }
+
+    public Geolocation getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setCurrentPosition(Geolocation currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }
