@@ -14,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.components.Post;
-import com.example.instadam.geolocation.Geolocation;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.map.MapActivity;
 import com.example.instadam.settings.SettingsActivity;
@@ -51,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void getAllImages() {
         Log.d("ProfileActivity: ", "getAllImages()");
+
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();
         TextView nbrPublications = findViewById(R.id.nbrPublications);
@@ -82,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                         );
 
                         posts.add(new Post(
+                                post.getString("id"),
                                 post.getString("name"),
                                 post.getString("image"),
                                 location
@@ -101,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void redirectToSettingsActivity() {
         Log.d("ProfileActivity: ", "redirectToSettingsActivity()");
+
         Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
         ProfileActivity.this.startActivity(intent);
     }
@@ -109,4 +111,5 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(ProfileActivity.this, MapActivity.class);
         ProfileActivity.this.startActivity(intent);
     }
+    
 }

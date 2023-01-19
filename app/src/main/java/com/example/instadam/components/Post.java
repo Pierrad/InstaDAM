@@ -10,6 +10,8 @@ import com.example.instadam.geolocation.Geolocation;
  * Post represents a post in the feed.
  */
 public class Post {
+
+    private String id;
     private String name;
     private String description;
     private String author;
@@ -24,10 +26,15 @@ public class Post {
         this.image = image;
     }
 
-    public Post(String name, String image, Geolocation geolocation) {
+    public Post(String id, String name, String image, Geolocation geolocation) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.geolocation = geolocation;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {
