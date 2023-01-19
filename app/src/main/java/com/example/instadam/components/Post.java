@@ -7,6 +7,8 @@ import android.util.Base64;
 import com.example.instadam.geolocation.Geolocation;
 
 public class Post {
+
+    private String id;
     private String name;
     private String description;
     private String author;
@@ -21,9 +23,14 @@ public class Post {
         this.image = image;
     }
 
-    public Post(String name, String image) {
+    public Post(String id, String name, String image) {
+        this.id = id;
         this.name = name;
         this.image = image;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

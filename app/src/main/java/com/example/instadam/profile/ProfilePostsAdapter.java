@@ -1,38 +1,49 @@
 package com.example.instadam.profile;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.components.Post;
+import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.user.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProfilePostsAdapter extends BaseAdapter {
 
-    private List<Post> listData;
-    private LayoutInflater layoutInflater;
-    private Context context;
+    private final List<Post> listPost;
+    private final LayoutInflater layoutInflater;
+    private final Context context;
 
-    public ProfilePostsAdapter(Context aContext,  List<Post> listData) {
-        this.context = aContext;
-        this.listData = listData;
-        layoutInflater = LayoutInflater.from(aContext);
+    public ProfilePostsAdapter(Context context,  List<Post> listPost) {
+        this.context = context;
+        this.listPost = listPost;
+        this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return listData.size();
+        return listPost.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listData.get(position);
+        return listPost.get(position);
     }
 
     @Override
@@ -40,26 +51,65 @@ public class ProfilePostsAdapter extends BaseAdapter {
         return position;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        ConstraintLayout layoutItem;
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.grid_post_layout, null);
-            holder = new ViewHolder();
-            holder.flagView = convertView.findViewById(R.id.imageView_flag);
-            convertView.setTag(holder);
+            layoutItem = (ConstraintLayout) this.layoutInflater.inflate(R.layout.grid_post_layout, parent, false);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            layoutItem = (ConstraintLayout) convertView;
         }
 
-        Post post = this.listData.get(position);
+        ImageView photo = layoutItem.findViewById(R.id.photo);
 
-        holder.flagView.setImageBitmap(post.getImage());
+        photo.setImageBitmap(listPost.get(position).getImage());
 
-        return convertView;
+        photo.setTag(position);
+        photo.setOnClickListener(click -> printAlertDialogDelete(position));
+
+        return layoutItem;
     }
 
-    static class ViewHolder {
-        ImageView flagView;
+    public void printAlertDialogDelete(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Voulez-vous supprimer cette photo ?");
+        builder.setMessage(listPost.get(position).getName());
+        builder.setNegativeButton("ANNULER", null);
+        builder.setPositiveButton("OK", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(click -> deletePhoto(dialog, position));
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(click -> dialog.cancel());
     }
+
+    public void deletePhoto(AlertDialog dialog, int position) {
+        Log.d("ProfilePostsAdapter: ", "deletePhoto()");
+
+        Map<String, String> headers = new HashMap<>();
+        Map<String, String> body = new HashMap<>();
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        HTTPRequest request = new HTTPRequest(queue, context.getString(R.string.API_URL), User.getInstance(context).getAccessToken());
+
+        request.makeRequest(Request.Method.DELETE, "/v1/images/" + listPost.get(position).getId(), headers, body, response -> {
+                    Log.d("ProfilePostsAdapter: ", "deletePhotos() -> rqstDelete deleteImage OK");
+
+                    listPost.remove(position);
+                    notifyDataSetChanged();
+                    dialog.cancel();
+                }, error -> {
+                    Log.e("ProfilePostsAdapter: ", "deletePhotos() -> rqstDelete deleteImage NOT OK" + error);
+
+                    dialog.setTitle("Oups, il y a eu un problème.");
+                    dialog.setMessage("");
+
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(click -> dialog.cancel());
+                }
+        );
+    }
+
 }
