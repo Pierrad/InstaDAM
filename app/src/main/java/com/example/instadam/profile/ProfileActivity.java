@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.components.Post;
+import com.example.instadam.geolocation.Geolocation;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.map.MapActivity;
 import com.example.instadam.settings.SettingsActivity;
