@@ -1,8 +1,5 @@
 package com.example.instadam.helpers;
 
-import android.util.Log;
-
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +16,8 @@ import org.json.JSONObject;
  */
 public class HTTPRequest {
 
-    private RequestQueue queue;
-    private String apiUrl;
+    private final RequestQueue queue;
+    private final String apiUrl;
     private String apiBearer;
 
     public HTTPRequest(RequestQueue queue, String apiUrl) {
@@ -76,7 +73,7 @@ public class HTTPRequest {
 
         MultipartRequest multipartRequest = new MultipartRequest(url, errorListener, listener, "image", image, formData, headers) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 if (apiBearer != null) {
                     headers.put("Authorization", "Bearer " + apiBearer);

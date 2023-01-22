@@ -12,11 +12,11 @@ import com.example.instadam.geolocation.Geolocation;
 public class Post {
 
     private String id;
-    private String name;
+    private final String name;
     private String description;
     private String author;
-    private Geolocation geolocation;
-    private String image;
+    private final Geolocation geolocation;
+    private final String image;
 
     public Post(String name, String description, String author, Geolocation geolocation, String image) {
         this.name = name;

@@ -1,5 +1,7 @@
 package com.example.instadam.publish;
 
+import static java.lang.Thread.sleep;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +29,7 @@ import androidx.core.content.FileProvider;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
+import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.user.User;
 
@@ -62,13 +65,9 @@ public class PublishActivity extends AppCompatActivity {
         publishProgressBar = findViewById(R.id.progressPublish);
         capturedImage = findViewById(R.id.captured_image);
 
-        ActivityResultLauncher<Intent> cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            onCameraResult(result.getResultCode(), result.getData());
-        });
+        ActivityResultLauncher<Intent> cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onCameraResult(result.getResultCode()));
 
-        ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            onGalleryResult(result.getResultCode(), result.getData());
-        });
+        ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onGalleryResult(result.getResultCode(), result.getData()));
 
         takeImage.setOnClickListener(v -> {
             if (checkWritePermission()) {
@@ -118,7 +117,7 @@ public class PublishActivity extends AppCompatActivity {
         }
     }
 
-    private void onCameraResult(int resultCode, Intent data) {
+    private void onCameraResult(int resultCode) {
         if (resultCode == RESULT_OK) {
             capturedImage.setImageURI(capturedImageUri);
         } else if (resultCode == RESULT_CANCELED) {
@@ -142,8 +141,13 @@ public class PublishActivity extends AppCompatActivity {
     private void saveAndPublish() throws JSONException, FileNotFoundException {
         String name = ((EditText) findViewById(R.id.editTextName)).getText().toString();
         String description = ((EditText) findViewById(R.id.editTextDesc)).getText().toString();
-
         Bitmap bitmap = null;
+
+        if (capturedImageUri == null) {
+            Toast.makeText(this, R.string.warning_choose_image, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(capturedImageUri));
         } catch (FileNotFoundException e) {
@@ -179,7 +183,7 @@ public class PublishActivity extends AppCompatActivity {
         }
     }
 
-    public void publishPost(String name, String description) throws JSONException, FileNotFoundException {
+    public void publishPost(String name, String description) throws JSONException {
         RequestQueue queue = Volley.newRequestQueue(this);
         HTTPRequest request = new HTTPRequest(queue, getString(R.string.API_URL), User.getInstance(PublishActivity.this).getAccessToken());
 
@@ -200,13 +204,17 @@ public class PublishActivity extends AppCompatActivity {
             request.makeMultipartRequest("/v1/images", headers, body, imageStream, response -> {
                 Toast.makeText(PublishActivity.this, "Image publiée", Toast.LENGTH_LONG).show();
                 publishProgressBar.setVisibility(View.GONE);
-            }, error -> {
-                Toast.makeText(PublishActivity.this, R.string.error_publishing_post, Toast.LENGTH_LONG).show();
-            });
+
+                try {
+                    sleep(3000);
+                    redirectToFeedActivity();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, error -> Toast.makeText(PublishActivity.this, R.string.error_publishing_post, Toast.LENGTH_LONG).show());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     private File createTemporaryImageFile() throws IOException {
@@ -240,5 +248,10 @@ public class PublishActivity extends AppCompatActivity {
 
     public void requestReadPermission() {
         ActivityCompat.requestPermissions(PublishActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_MEDIA);
+    }
+
+    public void redirectToFeedActivity() {
+        Intent intent = new Intent(PublishActivity.this, FeedActivity.class);
+        PublishActivity.this.startActivity(intent);
     }
 }

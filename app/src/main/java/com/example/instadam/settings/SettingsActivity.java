@@ -11,25 +11,27 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.profile.ProfileActivity;
 import com.example.instadam.user.User;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ProfilePostsAdapter allows you to display and modify your nickname and
+ * display your email address
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("SettingsActivity: ", "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -45,8 +47,16 @@ public class SettingsActivity extends AppCompatActivity {
         save.setOnClickListener(click -> save(oldPseudo, pseudo.getText().toString()));
     }
 
+    /**
+     * Called when the save button is pressed.
+     *
+     * Redirects to our profile page if is correct.
+     *
+     * @param oldPseudo  The old pseudo of the user.
+     * @param newPseudo  The new pseudo of the user.
+     */
     public void save(String oldPseudo, String newPseudo) {
-        Log.d("SettingsActivity: ", "save(" + oldPseudo + newPseudo + ")");
+        Log.d("SettingsActivity: ", "save(" + oldPseudo + ", " + newPseudo + ")");
 
         if (oldPseudo.equals(newPseudo)) {
             Log.d("SettingsActivity: ", "save() -> oldPseudo == newPseudo");
@@ -63,42 +73,27 @@ public class SettingsActivity extends AppCompatActivity {
 
             body.put("name", newPseudo);
 
-            request.makeRequest(Request.Method.PATCH, "/v1/users/" + User.getInstance(SettingsActivity.this).getId(), headers, body, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d("SettingsActivity: ", "save() -> rqstPatch updateUser OK");
+            request.makeRequest(Request.Method.PATCH, "/v1/users/" + User.getInstance(SettingsActivity.this).getId(), headers, body, response -> {
+                    Log.d("SettingsActivity: ", "save() -> rqstPatch updateUser OK");
 
-                            try {
-                                JSONObject jsonResponse = new JSONObject(response);
-                                User.getInstance(SettingsActivity.this).setUsername(jsonResponse.getString("name"));
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        User.getInstance(SettingsActivity.this).setUsername(jsonResponse.getString("name"));
 
-                                redirectToProfileActivity();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("SettingsActivity: ", "save() -> rqstPatch updateUser NOT OK, error: " + error);
-
-                            try {
-                                String responseBody = new String(error.networkResponse.data, "utf-8");
-                                JSONObject data = new JSONObject(responseBody);
-                                // TODO
-                                //textError.setText(data.getString("message"));
-                            } catch (UnsupportedEncodingException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                        redirectToProfileActivity();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                }, error -> Log.e("SettingsActivity: ", "save() -> rqstPatch updateUser NOT OK, error: " + error)
             );
         }
     }
 
     public void redirectToProfileActivity() {
         Log.d("SettingsActivity: ", "redirectToProfileActivity()");
+
         Intent intent = new Intent(this, ProfileActivity.class);
         this.startActivity(intent);
     }
+
 }

@@ -24,13 +24,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ProfilePostsAdapter allows to list the pictures taken
+ * by the user of a 2 columns GridView.
+ */
 public class ProfilePostsAdapter extends BaseAdapter {
 
     private final List<Post> listPost;
     private final LayoutInflater layoutInflater;
     private final Context context;
 
+    /**
+     * Called when the register button is pressed.
+     *
+     * Redirects to our login page if all is correct.
+     * Otherwise displays an error message
+     *
+     * @param context  The context of the caller.
+     * @param listPost  The list of photos of the user.
+     */
     public ProfilePostsAdapter(Context context,  List<Post> listPost) {
+        Log.d("ProfilePostsAdapter: ", "constructor(" + context + ", " + listPost + ")");
+
         this.context = context;
         this.listPost = listPost;
         this.layoutInflater = LayoutInflater.from(context);
@@ -51,8 +66,19 @@ public class ProfilePostsAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     * Set a post on the GridView
+     *
+     * @param position The position of the post in the list.
+     * @param convertView  The view.
+     * @param parent  The parent.
+     *
+     * @return layoutItem
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Log.d("ProfilePostsAdapter: ", "getView(" + position + ", " + convertView + ", " + parent + ")");
+
         ConstraintLayout layoutItem;
 
         if (convertView == null) {
@@ -71,7 +97,17 @@ public class ProfilePostsAdapter extends BaseAdapter {
         return layoutItem;
     }
 
+    /**
+     * Called when a photo is pressed.
+     *
+     * Show an alertDialog for delete the photo
+     *
+     * @param position The position of the post in the list.
+     *
+     */
     public void printAlertDialogDelete(int position) {
+        Log.d("ProfilePostsAdapter: ", "printAlertDialogDelete(" + position + ")");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         builder.setTitle("Voulez-vous supprimer cette photo ?");
@@ -86,8 +122,17 @@ public class ProfilePostsAdapter extends BaseAdapter {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(click -> dialog.cancel());
     }
 
+    /**
+     * Called when the button OK of the alertDialog is pressed.
+     *
+     * Delete the phtoto in the DataBase
+     *
+     * @param dialog The dialog for remove it after delete photo.
+     * @param position The position of the post in the list.
+     *
+     */
     public void deletePhoto(AlertDialog dialog, int position) {
-        Log.d("ProfilePostsAdapter: ", "deletePhoto()");
+        Log.d("ProfilePostsAdapter: ", "deletePhoto(" + dialog + ", " + position + ")");
 
         Map<String, String> headers = new HashMap<>();
         Map<String, String> body = new HashMap<>();

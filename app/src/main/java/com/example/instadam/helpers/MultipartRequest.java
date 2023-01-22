@@ -20,20 +20,18 @@ public class MultipartRequest extends Request<String> {
     private final String lineEnd = "\r\n";
     private final String boundary = "---011000010111000001101001";
 
-    private Response.Listener<String> mListener;
-    private Response.ErrorListener mErrorListener;
-    private Map<String, String> mHeaders;
+    private final Response.Listener<String> mListener;
+    private final Map<String, String> mHeaders;
 
-    private Map<String, String> mFormData;
-    private InputStream mInputStream;
-    private String mImageName;
+    private final Map<String, String> mFormData;
+    private final InputStream mInputStream;
+    private final String mImageName;
 
     public MultipartRequest(String url, Response.ErrorListener errorListener, Response.Listener<String> listener,
                             String inputStreamName, InputStream inputStream, Map<String, String> formData, Map<String, String> headers) {
         super(Method.POST, url, errorListener);
 
         mListener = listener;
-        mErrorListener = errorListener;
         mHeaders = headers;
         mFormData = formData;
         mInputStream = inputStream;

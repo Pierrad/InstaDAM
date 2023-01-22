@@ -1,7 +1,6 @@
 package com.example.instadam.map;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,9 +39,7 @@ public class MapActivity extends AppCompatActivity {
         mapController.setZoom(11.0);
         mapController.setCenter(new GeoPoint(User.getInstance(this).getCurrentPosition().getLatitude(), User.getInstance(this).getCurrentPosition().getLongitude()));
 
-        User.getInstance(this).getPosts().forEach(post -> {
-            addMarker(post.getGeolocation().getLongitude(), post.getGeolocation().getLatitude(), post.getName());
-        });
+        User.getInstance(this).getPosts().forEach(post -> addMarker(post.getGeolocation().getLongitude(), post.getGeolocation().getLatitude(), post.getName()));
 
         map.invalidate();
     }

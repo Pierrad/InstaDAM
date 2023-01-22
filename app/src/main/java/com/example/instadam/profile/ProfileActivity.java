@@ -28,6 +28,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The ProfileActivity allows you to display your nickname,
+ * your number of publications and your photos.
+ * Allows the deletion of photos and
+ * contains 2 buttons to change the nickname and
+ * to see the location of the photos taken.
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
@@ -71,8 +78,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     for (int i = 0; i < images.length(); i++) {
                         JSONObject post = images.getJSONObject(i);
-                        Log.d("Post", post.toString());
-
                         JSONObject geolocation = post.getJSONObject("geolocation");
                         JSONArray coordinates = geolocation.getJSONArray("coordinates");
                         double latitudePost = coordinates.getDouble(0);
@@ -109,6 +114,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void redirectToMapActivity() {
+        Log.d("ProfileActivity: ", "redirectToMapActivity()");
+
         Intent intent = new Intent(ProfileActivity.this, MapActivity.class);
         ProfileActivity.this.startActivity(intent);
     }

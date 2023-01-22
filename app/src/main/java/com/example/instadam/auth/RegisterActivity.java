@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.R;
 import com.example.instadam.feed.FeedActivity;
@@ -27,12 +25,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * The RegisterActivity allows to create an account to our InstaDAM application.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Utilities utilities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("RegisterActivity: ", "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -56,7 +59,20 @@ public class RegisterActivity extends AppCompatActivity {
         login.setOnClickListener(click -> redirectToLoginActivity());
     }
 
+    /**
+     * Called when the register button is pressed.
+     *
+     * Redirects to our login page if all is correct.
+     * Otherwise displays an error message
+     *
+     * @param email  The email of the user.
+     * @param pseudo  The pseudo of the user.
+     * @param password0  The password0 of the user.
+     * @param password1  The password1 of the user.
+     */
     private void register(String email, String pseudo, String password0, String password1) {
+        Log.d("RegisterActivity: ", "register(" + email + ", " + pseudo + ", " + password0 + ", " + password1 + ")");
+
         TextView textError = findViewById(R.id.error);
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
         final String EMAIL_PATTERN = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
@@ -106,58 +122,59 @@ public class RegisterActivity extends AppCompatActivity {
         body.put("email", email);
         body.put("password", password0);
 
-        request.makeRequest(Request.Method.POST, "/v1/auth/register", headers, body, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            JSONObject user = jsonResponse.getJSONObject("user");
-                            JSONObject tokens = jsonResponse.getJSONObject("tokens");
-                            JSONObject accessToken = tokens.getJSONObject("access");
-                            JSONObject refreshToken = tokens.getJSONObject("refresh");
+        request.makeRequest(Request.Method.POST, "/v1/auth/register", headers, body, response -> {
+                Log.d("RegisterActivity: ", "register() -> rqstPost register OK");
 
-                            Log.d("response", response);
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    JSONObject user = jsonResponse.getJSONObject("user");
+                    JSONObject tokens = jsonResponse.getJSONObject("tokens");
+                    JSONObject accessToken = tokens.getJSONObject("access");
+                    JSONObject refreshToken = tokens.getJSONObject("refresh");
 
-                            if (tokens.has("access")) {
-                                User.getInstance(RegisterActivity.this).setId(user.getString("id"));
-                                User.getInstance(RegisterActivity.this).setEmail(user.getString("email"));
-                                User.getInstance(RegisterActivity.this).setUsername(user.getString("name"));
-                                User.getInstance(RegisterActivity.this).setAccessToken(accessToken.getString("token"));
-                                User.getInstance(RegisterActivity.this).setRefreshToken(refreshToken.getString("token"));
+                    if (tokens.has("access")) {
+                        User.getInstance(RegisterActivity.this).setId(user.getString("id"));
+                        User.getInstance(RegisterActivity.this).setEmail(user.getString("email"));
+                        User.getInstance(RegisterActivity.this).setUsername(user.getString("name"));
+                        User.getInstance(RegisterActivity.this).setAccessToken(accessToken.getString("token"));
+                        User.getInstance(RegisterActivity.this).setRefreshToken(refreshToken.getString("token"));
 
-                                redirectToFeedActivity();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        redirectToFeedActivity();
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        try {
-                            String responseBody = new String(error.networkResponse.data, "utf-8");
-                            JSONObject data = new JSONObject(responseBody);
-
-                            if (data.getString("message").equals("Email already taken")) {
-                                textError.setText(R.string.email_already_token_error);
-                            } else {
-                                textError.setText(data.getString("message"));
-                            }
-                        } catch (UnsupportedEncodingException | JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }, error -> {
+                Log.d("RegisterActivity: ", "register() -> rqstPost register NOT OK");
+
+                 try {
+                     String responseBody = new String(error.networkResponse.data, "utf-8");
+                     JSONObject data = new JSONObject(responseBody);
+
+                     if (data.getString("message").equals("Email already taken")) {
+                         textError.setText(R.string.email_already_token_error);
+                     } else {
+                         textError.setText(data.getString("message"));
+                     }
+                 } catch (UnsupportedEncodingException | JSONException e) {
+                     e.printStackTrace();
+                 }
+            }
         );
     }
 
     public void redirectToLoginActivity() {
+        Log.d("ProfileActivity: ", "redirectToLoginActivity()");
+
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         RegisterActivity.this.startActivity(intent);
     }
 
     public void redirectToFeedActivity() {
+        Log.d("ProfileActivity: ", "redirectToFeedActivity()");
+
         Intent intent = new Intent(RegisterActivity.this, FeedActivity.class);
         RegisterActivity.this.startActivity(intent);
     }
+
 }

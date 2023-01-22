@@ -21,8 +21,8 @@ import java.util.List;
  * It extends the RecyclerView.Adapter class and implements the ViewHolder pattern to fill the RecyclerView with the posts.
  */
 public class FeedPostsAdapter extends RecyclerView.Adapter<FeedPostsAdapter.ViewHolder> {
-    private ArrayList<Post> feedPosts;
-    private Context context;
+    private final ArrayList<Post> feedPosts;
+    private final Context context;
 
     public FeedPostsAdapter(ArrayList<Post> feedPosts, Context context) {
         this.feedPosts = feedPosts;
@@ -65,7 +65,7 @@ public class FeedPostsAdapter extends RecyclerView.Adapter<FeedPostsAdapter.View
     /**
      * Retrieve the reference of the views in the layout and store them in the ViewHolder.
      */
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameTV, geolocationTV, authorTV, descriptionTV;
         private final ImageView imageTV;
 
