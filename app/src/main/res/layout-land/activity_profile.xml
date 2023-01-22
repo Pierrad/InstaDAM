@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/nbrPublications"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/quantify"
@@ -30,10 +31,9 @@
         android:id="@+id/nbrPublications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/pseudo"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/pseudo"
+        app:layout_constraintStart_toEndOf="@id/pseudo"
+        app:layout_constraintEnd_toEndOf="parent"
         android:fontFamily="@font/quantify"
         android:textColor="@color/app_black"
         android:textSize="@dimen/text"
@@ -43,7 +43,7 @@
         android:id="@+id/editProfile"
         android:layout_width="197dp"
         android:layout_height="74dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/quantify"
         android:text="@string/editProfile"
@@ -51,8 +51,8 @@
         android:textColor="@color/app_black"
         android:textSize="@dimen/text"
         app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/viewMap"
         app:layout_constraintTop_toBottomOf="@id/nbrPublications" />
 
     <Button
@@ -68,15 +68,15 @@
         android:textColor="@color/app_black"
         android:textSize="@dimen/text"
         app:backgroundTint="@null"
+        app:layout_constraintStart_toEndOf="@id/editProfile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editProfile" />
+        app:layout_constraintTop_toBottomOf="@id/nbrPublications" />
 
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/viewMap"
+        app:layout_constraintTop_toBottomOf="@id/editProfile"
         app:layout_constraintBottom_toTopOf="@id/navigation_bar"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
