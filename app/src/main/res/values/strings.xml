@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">InstaDAM</string>
     <string name="API_URL">http://217.160.51.173:5123</string>
+    <string name="API_BEARER">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2I2ZDIyNGQ0Yzk3NGM3YWI2ZTgxZjIiLCJpYXQiOjE2NzMwOTE2MzQsImV4cCI6MTY3Mzk1NTYzNCwidHlwZSI6ImFjY2VzcyJ9.D2GaxkXsNgJ5z5MkZZrojXwSsfpTUQPGC3qJ-h8sEUk</string>
     <string name="SP_USER">USER</string>
     <string name="mail">Mail</string>
     <string name="emailAddress">Adresse mail</string>
@@ -33,4 +34,16 @@
     <string name="add_icon_label">Publier</string>
     <string name="profile_icon_label">Profil</string>
     <string name="viewMap">Voir la map</string>
+    <string name="take_picture_btn_label">Prendre une photo</string>
+    <string name="picture_name_label">Nom de la photo :</string>
+    <string name="capture_picture_content_desc">Image capturé</string>
+    <string name="picture_description_label">Description :</string>
+    <string name="publish_picture_btn_label">Publier l\'image</string>
+    <string name="load_picture_btn_label">Charger depuis la galerie</string>
+    <string name="error_creating_file">Error lors de la création de l\'image</string>
+    <string name="authority_provider">com.example.instadam.provider</string>
+    <string name="action_cancel">Action annulée</string>
+    <string name="action_failed">Action échouée</string>
+    <string name="warning_fill_all_fields">Veuillez compléter les champs</string>
+    <string name="error_publishing_post">Erreur lors de la publication</string>
 </resources>
