@@ -1,5 +1,10 @@
 package com.example.instadam.helpers;
 
+import android.util.Log;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.android.volley.AuthFailureError;
@@ -65,4 +70,22 @@ public class HTTPRequest {
 
         queue.add(stringRequest);
     }
+
+    public void makeMultipartRequest(String endpoint, final Map<String, String> headers, final Map<String, String> formData, final InputStream image, final Response.Listener<String> listener, final Response.ErrorListener errorListener) {
+        String url = apiUrl + endpoint;
+
+        MultipartRequest multipartRequest = new MultipartRequest(url, errorListener, listener, "image", image, formData, headers) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                if (apiBearer != null) {
+                    headers.put("Authorization", "Bearer " + apiBearer);
+                }
+                return headers;
+            }
+        };
+
+        queue.add(multipartRequest);
+    }
+
 }
