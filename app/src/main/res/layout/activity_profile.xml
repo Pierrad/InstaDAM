@@ -21,9 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:fontFamily="@font/quantify"
+        android:fontFamily="@font/poppins_bold"
         android:textColor="@color/app_black"
-        android:textSize="@dimen/subtitle"
+        android:textSize="@dimen/subsubtitle"
         android:text="@string/textViewForDev" />
 
     <TextView
@@ -33,34 +33,31 @@
         app:layout_constraintTop_toBottomOf="@id/pseudo"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/quantify"
+        android:fontFamily="@font/poppins"
         android:textColor="@color/app_black"
         android:textSize="@dimen/text"
         android:text="@string/textViewForDev" />
 
     <Button
         android:id="@+id/editProfile"
-        android:layout_width="197dp"
+        android:layout_width="180dp"
         android:layout_height="74dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/custom_button"
-        android:fontFamily="@font/quantify"
+        android:fontFamily="@font/poppins_bold"
         android:text="@string/editProfile"
         android:textAllCaps="false"
         android:textColor="@color/app_black"
         android:textSize="@dimen/text"
         app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/viewMap"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nbrPublications" />
 
     <Button
         android:id="@+id/viewMap"
-        android:layout_width="172dp"
+        android:layout_width="180dp"
         android:layout_height="74dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/viewMap"
@@ -69,8 +66,8 @@
         android:textSize="@dimen/text"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editProfile" />
+        app:layout_constraintStart_toEndOf="@id/editProfile"
+        app:layout_constraintTop_toTopOf="@id/editProfile" />
 
     <GridView
         android:id="@+id/gridView"

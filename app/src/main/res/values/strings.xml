@@ -44,5 +44,6 @@
     <string name="action_cancel">Action annulée</string>
     <string name="action_failed">Action échouée</string>
     <string name="warning_fill_all_fields">Veuillez compléter les champs</string>
+    <string name="warning_choose_image">Veuillez prendre ou choisir une image</string>
     <string name="error_publishing_post">Erreur lors de la publication</string>
 </resources>

@@ -61,6 +61,7 @@
                     android:background="@drawable/custom_field"
                     android:backgroundTint="@color/app_white"
                     android:ems="10"
+                    android:textColor="@color/app_black"
                     android:fontFamily="@font/poppins"
                     android:textSize="@dimen/text"
                     android:inputType="textEmailAddress"
@@ -87,6 +88,7 @@
                         android:paddingEnd="40dp"
                         android:background="@null"
                         android:ems="10"
+                        android:textColor="@color/app_black"
                         android:fontFamily="@font/poppins"
                         android:textSize="@dimen/text"
                         android:inputType="textPassword"
@@ -133,8 +135,9 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/custom_button"
                     app:backgroundTint="@null"
+                    android:textColor="@color/app_black"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppins_bold"
                     android:textSize="@dimen/text"
                     android:text="@string/signin"/>
 

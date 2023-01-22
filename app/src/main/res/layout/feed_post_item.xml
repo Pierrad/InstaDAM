@@ -34,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:textColor="@color/app_black"
             android:fontFamily="@font/poppins"
             android:text="@string/textViewForDev" />
 
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/app_black"
             android:fontFamily="@font/poppins"
             android:text="@string/textViewForDev" />
 
@@ -63,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
+        android:textColor="@color/app_black"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="@string/textViewForDev" />

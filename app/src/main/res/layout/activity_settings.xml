@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/subtitle"
                 android:text="@string/pseudo" />
@@ -42,7 +42,7 @@
                 android:background="@drawable/custom_field"
                 android:backgroundTint="@color/app_white"
                 android:ems="10"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins"
                 android:textSize="@dimen/text"
                 android:textColor="@color/app_black"
                 android:inputType="text"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/subtitle"
                 android:text="@string/emailAddress" />
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins"
                 android:textColor="@color/app_black"
                 android:textSize="@dimen/text"
                 android:text="@string/textViewForDev" />
@@ -80,7 +80,7 @@
                 android:background="@drawable/custom_button"
                 app:backgroundTint="@null"
                 android:textAllCaps="false"
-                android:fontFamily="@font/quantify"
+                android:fontFamily="@font/poppins_bold"
                 android:textSize="@dimen/text"
                 android:textColor="@color/app_black"
                 android:text="@string/save" />
@@ -88,7 +88,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <!-- NavBar <include layout="@layout/header" /> -->
 
 </FrameLayout>
