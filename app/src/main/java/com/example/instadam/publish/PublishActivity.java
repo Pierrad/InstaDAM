@@ -49,6 +49,7 @@ import java.util.Map;
 
 public class PublishActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_MEDIA = 1000;
+    private static final int PERMISSIONS_REQUEST_WRITE_MEDIA = 1001;
     private ImageView capturedImage;
     private Uri capturedImageUri;
     private String imageName;
@@ -77,7 +78,6 @@ public class PublishActivity extends AppCompatActivity {
                 } catch (IOException ex) {
                     Toast.makeText(this, getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show();
                 }
-
                 if (photoFile != null) {
                     capturedImageUri = FileProvider.getUriForFile(this, getString(R.string.authority_provider), photoFile);
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -143,11 +143,6 @@ public class PublishActivity extends AppCompatActivity {
         String description = ((EditText) findViewById(R.id.editTextDesc)).getText().toString();
         Bitmap bitmap = null;
 
-        if (capturedImageUri == null) {
-            Toast.makeText(this, R.string.warning_choose_image, Toast.LENGTH_LONG).show();
-            return;
-        }
-
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(capturedImageUri));
         } catch (FileNotFoundException e) {
@@ -206,7 +201,7 @@ public class PublishActivity extends AppCompatActivity {
                 publishProgressBar.setVisibility(View.GONE);
 
                 try {
-                    sleep(3000);
+                    sleep(1500);
                     redirectToFeedActivity();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -243,7 +238,7 @@ public class PublishActivity extends AppCompatActivity {
     }
 
     public void requestWritePermission() {
-        ActivityCompat.requestPermissions(PublishActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_MEDIA);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_WRITE_MEDIA);
     }
 
     public void requestReadPermission() {

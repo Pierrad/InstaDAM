@@ -1,51 +1,58 @@
 package com.example.instadam.notification;
-import android.app.Notification;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.instadam.R;
+
+import java.util.Random;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "channel_01";
 
     /**
-     * This method is called when we trigger a new daily notification.
-     * @param context The Context in which the receiver is running.
-     * @param intent The Intent being received.
+     * On receive of the pendingIntent send by the AlarmManager daily, we create a new notification
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent notificationIntent = new Intent(context, NotificationActivity.class);
+        sendNotification(context);
+    }
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(NotificationActivity.class);
-        stackBuilder.addNextIntent(notificationIntent);
-
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification.Builder builder = new Notification.Builder(context);
-        Notification notification = builder.setContentTitle("InstaDAM")
+    /**
+     * Create a notification channel, build a notification and send it.
+     */
+    private void sendNotification(Context context) {
+        createNotificationChannel(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentTitle("InstaDAM")
                 .setContentText("Venez découvrir les dernières photos autour de vous !")
                 .setTicker("Nouvelle notification !")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent).build();
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        builder.setChannelId(CHANNEL_ID);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel(
-                CHANNEL_ID,
-                "NotificationInstaDAM",
-                NotificationManager.IMPORTANCE_DEFAULT
-        );
-        notificationManager.createNotificationChannel(channel);
+        Random r = new Random();
+        notificationManager.notify(r.nextInt(), builder.build());
+    }
 
-        notificationManager.notify(0, notification);
+    private void createNotificationChannel(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "channel_name_instaDAM";
+            String description = "channel_description_instaDAM";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

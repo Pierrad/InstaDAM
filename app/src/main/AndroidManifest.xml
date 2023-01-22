@@ -17,9 +17,10 @@
     <!-- Without this entry storage-permission entry will not be visible under app-info permissions list Android-10 and below -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -104,9 +105,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <activity android:name=".notification.NotificationActivity"
-            android:exported="false"/>
-        <receiver android:name=".notification.AlarmReceiver" />
+        <receiver android:name=".notification.AlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.notification.SCHEDULED_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
