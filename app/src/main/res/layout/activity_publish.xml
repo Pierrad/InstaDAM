@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical"
-    tools:context=".camera.CameraActivity">
+    tools:context=".publish.PublishActivity">
 
     <include layout="@layout/header"
         android:id="@+id/header"

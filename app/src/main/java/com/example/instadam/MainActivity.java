@@ -4,10 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
@@ -16,11 +14,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.instadam.auth.LoginActivity;
-import com.example.instadam.camera.CameraActivity;
+import com.example.instadam.publish.PublishActivity;
 import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.helpers.HTTPRequest;
 import com.example.instadam.notification.AlarmReceiver;
@@ -47,15 +43,13 @@ public class MainActivity extends AppCompatActivity {
 
         showAnimatedLogo();
 
-        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-        MainActivity.this.startActivity(intent);
-       /*  new Handler().postDelayed(new Runnable() {
+       new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 triggerDailyNotification();
                 checkAccount();
             }
-        }, 3000); */
+        }, 3000);
     }
 
     private void showAnimatedLogo() {

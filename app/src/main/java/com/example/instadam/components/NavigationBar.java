@@ -5,16 +5,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.instadam.R;
-import com.example.instadam.auth.LoginActivity;
-import com.example.instadam.auth.RegisterActivity;
+import com.example.instadam.publish.PublishActivity;
 import com.example.instadam.feed.FeedActivity;
-import com.example.instadam.map.MapActivity;
 import com.example.instadam.profile.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -40,7 +37,7 @@ public class NavigationBar extends Fragment {
 
         if (getActivity() instanceof FeedActivity) {
             navbar.setSelectedItemId(R.id.home);
-        } else if (getActivity() instanceof LoginActivity) {
+        } else if (getActivity() instanceof PublishActivity) {
             navbar.setSelectedItemId(R.id.add);
         } else if (getActivity() instanceof ProfileActivity) {
             navbar.setSelectedItemId(R.id.profile);
@@ -72,10 +69,10 @@ public class NavigationBar extends Fragment {
     }
 
     public void startAddActivity() {
-        if (getActivity() instanceof RegisterActivity) {
+        if (getActivity() instanceof PublishActivity) {
             return;
         }
-        Intent intent = new Intent(getActivity(), RegisterActivity.class);
+        Intent intent = new Intent(getActivity(), PublishActivity.class);
         startActivity(intent);
     }
 
