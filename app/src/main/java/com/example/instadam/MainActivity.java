@@ -1,5 +1,7 @@
 package com.example.instadam;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Camera;
@@ -21,10 +23,13 @@ import com.example.instadam.auth.LoginActivity;
 import com.example.instadam.camera.CameraActivity;
 import com.example.instadam.feed.FeedActivity;
 import com.example.instadam.helpers.HTTPRequest;
+import com.example.instadam.notification.AlarmReceiver;
 import com.example.instadam.user.User;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
        /*  new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                triggerDailyNotification();
                 checkAccount();
             }
         }, 3000); */
@@ -74,30 +80,30 @@ public class MainActivity extends AppCompatActivity {
         body.put("refreshToken", refreshToken);
 
         request.makeRequest(Request.Method.POST, "/v1/auth/me", headers, body, response -> {
-            try {
-                JSONObject jsonResponse = new JSONObject(response);
-                JSONObject user = jsonResponse.getJSONObject("user");
-                JSONObject tokens = jsonResponse.getJSONObject("tokens");
-                JSONObject accessToken = tokens.getJSONObject("access");
-                JSONObject refreshToken1 = tokens.getJSONObject("refresh");
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONObject user = jsonResponse.getJSONObject("user");
+                        JSONObject tokens = jsonResponse.getJSONObject("tokens");
+                        JSONObject accessToken = tokens.getJSONObject("access");
+                        JSONObject refreshToken1 = tokens.getJSONObject("refresh");
 
-                if (tokens.has("access")) {
-                    User.getInstance(MainActivity.this).setId(user.getString("id"));
-                    User.getInstance(MainActivity.this).setEmail(user.getString("email"));
-                    User.getInstance(MainActivity.this).setUsername(user.getString("name"));
-                    User.getInstance(MainActivity.this).setAccessToken(accessToken.getString("token"));
-                    User.getInstance(MainActivity.this).setRefreshToken(refreshToken1.getString("token"));
+                        if (tokens.has("access")) {
+                            User.getInstance(MainActivity.this).setId(user.getString("id"));
+                            User.getInstance(MainActivity.this).setEmail(user.getString("email"));
+                            User.getInstance(MainActivity.this).setUsername(user.getString("name"));
+                            User.getInstance(MainActivity.this).setAccessToken(accessToken.getString("token"));
+                            User.getInstance(MainActivity.this).setRefreshToken(refreshToken1.getString("token"));
 
-                    redirectToFeedActivity();
-                } else {
-                    redirectToLoginActivity();
-                }
+                            redirectToFeedActivity();
+                        } else {
+                            redirectToLoginActivity();
+                        }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                redirectToLoginActivity();
-            }
-        }, error -> {
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        redirectToLoginActivity();
+                    }
+                }, error -> {
                     error.printStackTrace();
                     redirectToLoginActivity();
                 }
@@ -112,6 +118,23 @@ public class MainActivity extends AppCompatActivity {
     public void redirectToLoginActivity() {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         MainActivity.this.startActivity(intent);
+    }
+
+    /**
+     * Set a daily notification at 19:00.
+     */
+    public void triggerDailyNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.HOUR_OF_DAY, 0);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
     }
 
 }
