@@ -55,6 +55,10 @@ public class PublishActivity extends AppCompatActivity {
     private String imageName;
     private ProgressBar publishProgressBar;
 
+    private ActivityResultLauncher<Intent> cameraResultLauncher;
+
+    private ActivityResultLauncher<Intent> galleryResultLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,26 +70,12 @@ public class PublishActivity extends AppCompatActivity {
         publishProgressBar = findViewById(R.id.progressPublish);
         capturedImage = findViewById(R.id.captured_image);
 
-        ActivityResultLauncher<Intent> cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onCameraResult(result.getResultCode()));
-
-        ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onGalleryResult(result.getResultCode(), result.getData()));
+        cameraResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onCameraResult(result.getResultCode()));
+        galleryResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> onGalleryResult(result.getResultCode(), result.getData()));
 
         takeImage.setOnClickListener(v -> {
             if (checkWritePermission()) {
-                File photoFile = null;
-                try {
-                    photoFile = createTemporaryImageFile();
-                } catch (IOException ex) {
-                    Toast.makeText(this, getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show();
-                }
-                if (photoFile != null) {
-                    capturedImageUri = FileProvider.getUriForFile(this, getString(R.string.authority_provider), photoFile);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
-                    cameraResultLauncher.launch(intent);
-                } else {
-                    Toast.makeText(this, getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show();
-                }
+                launchCamera();
             } else {
                 requestWritePermission();
             }
@@ -93,8 +83,7 @@ public class PublishActivity extends AppCompatActivity {
 
         buttonLoad.setOnClickListener(v -> {
             if (checkReadPermission()) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                galleryResultLauncher.launch(intent);
+                launchGallery();
             } else {
                 requestReadPermission();
             }
@@ -109,11 +98,35 @@ public class PublishActivity extends AppCompatActivity {
         });
     }
 
+    private void launchCamera() {
+        File photoFile = null;
+        try {
+            photoFile = createTemporaryImageFile();
+        } catch (IOException ex) {
+            Toast.makeText(this, getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show();
+        }
+        if (photoFile != null) {
+            capturedImageUri = FileProvider.getUriForFile(this, getString(R.string.authority_provider), photoFile);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
+            cameraResultLauncher.launch(intent);
+        } else {
+            Toast.makeText(this, getString(R.string.error_creating_file), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void launchGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryResultLauncher.launch(intent);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_READ_MEDIA && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            recreate();
+            launchGallery();
+        } else if (requestCode == PERMISSIONS_REQUEST_WRITE_MEDIA && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            launchCamera();
         }
     }
 
