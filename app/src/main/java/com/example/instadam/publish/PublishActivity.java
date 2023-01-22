@@ -143,6 +143,11 @@ public class PublishActivity extends AppCompatActivity {
         String description = ((EditText) findViewById(R.id.editTextDesc)).getText().toString();
         Bitmap bitmap = null;
 
+        if (capturedImageUri == null) {
+            Toast.makeText(this, R.string.warning_choose_image, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(capturedImageUri));
         } catch (FileNotFoundException e) {
